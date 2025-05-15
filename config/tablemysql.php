@@ -28,4 +28,10 @@ return [
     'blog_info'        => [
         'model_name'    => 'Blog',
     ],
+    'exchange_info'        => [
+        'model_name'    => 'Exchange',
+    ],
+    'exchange_tag'        => [
+        'model_name'    => 'exchangeTag',
+    ],
 ];

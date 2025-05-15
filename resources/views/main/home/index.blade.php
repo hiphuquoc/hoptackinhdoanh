@@ -59,26 +59,48 @@
         </div>
     </div>
 
-        <div class="pageContent">
-            <div class="layoutPageCategoryBlog container">
-                <div class="layoutPageCategoryBlog_main">
-                    
-                    <!-- bussiness box -->
-                    <div class="sectionBox">
-                        <h1 class="titlePage">Dự án đang gọi vốn - tìm người đồng hành</h1>
-                        <p class="sectionBox_desc">Các dự án đang gọi vốn, tìm người đồng hành phù hợp để cùng phát triển ý tưởng.</p>
-                        
-                        @include('main.home.bussinessBox')
-                    </div>
+    <div class="pageContent">
+        <div class="layoutPageCategoryBlog container">
+            <div class="layoutPageCategoryBlog_main">
+                
+                <!-- bussiness box -->
+                <div class="sectionBox">
+                    <h1 class="titlePage">Wallsora - Dự án hình nền Premium với hệ thống CRM & affiliate hoàn chỉnh, 50 ngôn ngữ</h1>
+                    <!-- subtitle -->
+                    <div class="businessPlanDetailBox">
+                        <div class="businessPlanDetailBox_subTitle">
+                            <div class="businessPlanDetailBox_subTitle_item">
+                                <svg><use xlink:href="#icon_eye_bold"></use></svg>
+                                <div>lượt xem 2k</div>
+                            </div>
+                            <div class="businessPlanDetailBox_subTitle_item">
+                                <svg><use xlink:href="#icon_calendar_days"></use></svg>
+                                <div>đăng 10/05/2025</div>
+                            </div>
+                            <div class="businessPlanDetailBox_subTitle_item">
+                                <svg><use xlink:href="#icon_calendar_xmark"></use></svg>
+                                <div>hết hạn 31/08/2025</div>
+                            </div>
+                        </div>
+                        <div class="businessPlanDetailBox_gallery">
+                            <!-- gallery box -->
+                            @include('main.home.gallery')
+                        </div>
+                        <div class="businessPlanDetailBox_contentBox">
 
+                            @include('main.home.test')
+                            
+                        </div>
+                    </div>
+                    
                 </div>
-                <div class="layoutPageCategoryBlog_sidebar">
-                    @include('main.home.sideBar')
-                </div>
+
+            </div>
+            <div class="layoutPageCategoryBlog_sidebar">
+                @include('main.home.sideBar')
             </div>
         </div>
-    
-        @include('main.snippets.footer')
+    </div>
     
 @endsection
 @push('modal')
@@ -96,7 +118,7 @@
 @endpush
 @push('bottom')
     <!-- Header bottom -->
-    @include('main.snippets.headerBottom')
+    {{-- @include('main.snippets.headerBottom') --}}
     <!-- === START:: Zalo Ring === -->
     {{-- @include('main.snippets.zaloRing') --}}
     <!-- === END:: Zalo Ring === -->

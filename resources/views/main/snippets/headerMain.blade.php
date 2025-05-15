@@ -11,9 +11,9 @@
                     </a>
                 </li>
                 <li>
-                    <div>
+                    <a href="/ve-chung-toi">
                         <div>Về chúng tôi</div>
-                    </div>
+                    </a>
                 </li>
                 <li>
                     <div>
@@ -38,113 +38,37 @@
                     </div>
                     <div class="normalMenu">
                         <ul>
-                            <li>
-                                <a href="#" title="Liên hệ {{ config('main_'.env('APP_NAME').'.company_name') }}" class="listMenuGroup">
-                                    <div class="listMenuGroup_icon">
-                                        <svg><use xlink:href="#icon_chart"></use></svg>
-                                    </div>
-                                    <div class="listMenuGroup_content">
-                                        <div class="listMenuGroup_content_title">
-                                            <div>Dự án kinh doanh</div>
-                                        </div>
-                                        <div class="listMenuGroup_content_description">Các dự án đang gọi vốn, tìm người đồng hành phù hợp để cùng phát triển ý tưởng</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="Liên hệ {{ config('main_'.env('APP_NAME').'.company_name') }}" class="listMenuGroup">
-                                    <div class="listMenuGroup_icon">
-                                        <svg><use xlink:href="#icon_land"></use></svg>
-                                    </div>
-                                    <div class="listMenuGroup_content">
-                                        <div class="listMenuGroup_content_title">
-                                            <div>Dự án bất động sản</div>
-                                            <div class="listMenuGroup_content_title_tag">mới</div>
-                                        </div>
-                                        <div class="listMenuGroup_content_description">Cơ hội đầu tư bất động sản hấp dẫn, kết nối với các dự án uy tín và tiềm năng</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="Liên hệ {{ config('main_'.env('APP_NAME').'.company_name') }}" class="listMenuGroup">
-                                    <div class="listMenuGroup_icon">
-                                        <svg><use xlink:href="#icon_chart"></use></svg>
-                                    </div>
-                                    <div class="listMenuGroup_content">
-                                        <div class="listMenuGroup_content_title">
-                                            <div>Nhượng quyền</div>
-                                            <div class="listMenuGroup_content_title_tag">mới</div>
-                                        </div>
-                                        <div class="listMenuGroup_content_description">Khởi nghiệp dễ dàng với cơ hội nhượng quyền từ các thương hiệu uy tín</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="Liên hệ {{ config('main_'.env('APP_NAME').'.company_name') }}" class="listMenuGroup">
-                                    <div class="listMenuGroup_icon">
-                                        <svg><use xlink:href="#icon_handshake"></use></svg>
-                                    </div>
-                                    <div class="listMenuGroup_content">
-                                        <div class="listMenuGroup_content_title">
-                                            <div>Đối tác</div>
-                                        </div>
-                                        <div class="listMenuGroup_content_description">Kết nối đối tác toàn quốc, tìm nguồn hàng chất lượng để tối ưu hóa kinh doanh</div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" title="Liên hệ {{ config('main_'.env('APP_NAME').'.company_name') }}" class="listMenuGroup">
-                                    <div class="listMenuGroup_icon">
-                                        <svg><use xlink:href="#icon_wallet"></use></svg>
-                                    </div>
-                                    <div class="listMenuGroup_content">
-                                        <div class="listMenuGroup_content_title">
-                                            <div>Quỹ đầu tư</div>
-                                            <div class="listMenuGroup_content_title_tag">mới</div>
-                                        </div>
-                                        <div class="listMenuGroup_content_description">Các quỹ đầu tư uy tín, hỗ trợ khởi nghiệp và thúc đẩy tăng trưởng bền vững</div>
-                                    </div>
-                                </a>
-                            </li>
+                            @php
+                                $exchanges  = \App\Models\Exchange::select('*')
+                                                ->with('seo', 'seos')
+                                                ->get();
+                            @endphp    
+                            @foreach($exchanges as $exchange)     
+                                @include('main.snippets.itemMenu', [
+                                    'itemMenu'  => $exchange,
+                                ])
+                            @endforeach
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <div>
+                    <a href="/tin-tuc">
                         <div>Tin tức - Kiến thức</div>
-                    </div>
+                    </a>
                     <div class="normalMenu">
                         <ul>
                             @php
                                 $categoryBlogs = \App\Models\CategoryBlog::select('*')
+                                                    ->whereHas('seo', function($query){
+                                                        $query->where('level', '>', 1);
+                                                    })
                                                     ->with('seo', 'seos')
                                                     ->get();
                             @endphp    
                             @foreach($categoryBlogs as $categoryBlog)     
-                                @foreach($categoryBlog->seos as $seo)
-                                    @if(!empty($seo->infoSeo->language)&&$seo->infoSeo->language==$language)
-                                        @php
-                                            $title          = $seo->infoSeo->title ?? null;
-                                            $description    = $seo->infoSeo->seo_description ?? null;
-                                            $url            = '/'.$seo->infoSeo->slug_full;
-                                            $icon           = !empty($categoryBlog->icon) ? '<div class="listMenuGroup_icon"><svg><use xlink:href="#'.$categoryBlog->icon.'"></use></svg></div>' : null;
-                                            $sign           = !empty($categoryBlog->sign) ? '<div class="listMenuGroup_content_title_tag" style="background:#'.config('main_'.env('APP_NAME').'.sign.'.$categoryBlog->sign.'.color').'">'.config('main_'.env('APP_NAME').'.sign.'.$categoryBlog->sign.'.name').'</div>' : null;
-                                        @endphp
-                                        <li>
-                                            <a href="{{ $url }}" title="{{ $title }}" class="listMenuGroup">
-                                                {!! $icon !!}
-                                                <div class="listMenuGroup_content">
-                                                    <div class="listMenuGroup_content_title">
-                                                        <div>{{ $title }}</div>
-                                                        {!! $sign !!}
-                                                    </div>
-                                                    <div class="listMenuGroup_content_description">{{ $description }}</div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        @break
-                                    @endif
-                                @endforeach
+                                @include('main.snippets.itemMenu', [
+                                    'itemMenu'  => $categoryBlog,
+                                ])
                             @endforeach
                         </ul>
                     </div>

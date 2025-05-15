@@ -113,14 +113,6 @@ class Tag extends Model {
         return $this->hasMany(\App\Models\SystemFile::class, 'attachment_id', 'id');
     }
 
-    public function products(){
-        return $this->hasMany(\App\Models\RelationTagInfoOrther::class, 'tag_info_id', 'id')->where('reference_type', 'product_info');
-    }
-
-    public function freeWallpapers(){
-        return $this->hasMany(\App\Models\RelationTagInfoOrther::class, 'tag_info_id', 'id')->where('reference_type', 'free_wallpaper_info');
-    }
-
     public function categories(){
         return $this->hasMany(\App\Models\RelationCategoryInfoTagInfo::class, 'tag_info_id', 'id');
     }

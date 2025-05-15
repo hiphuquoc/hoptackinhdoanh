@@ -4,12 +4,42 @@
     "src": "resources/sources/admin/style.scss",
     "isEntry": true
   },
+  "resources/sources/main/category-blog-first-view.scss": {
+    "file": "assets/category-blog-first-view-COTlezzW.css",
+    "src": "resources/sources/main/category-blog-first-view.scss",
+    "isEntry": true
+  },
+  "resources/sources/main/category-blog-non-first-view.scss": {
+    "file": "assets/home-non-first-view-uvBumCKy.css",
+    "src": "resources/sources/main/home-non-first-view.scss",
+    "isEntry": true
+  },
+  "resources/sources/main/exchange-first-view.scss": {
+    "file": "assets/exchange-first-view-FrAoYwNz.css",
+    "src": "resources/sources/main/exchange-first-view.scss",
+    "isEntry": true
+  },
+  "resources/sources/main/exchange-non-first-view.scss": {
+    "file": "assets/home-non-first-view-uvBumCKy.css",
+    "src": "resources/sources/main/home-non-first-view.scss",
+    "isEntry": true
+  },
   "resources/sources/main/home-first-view.scss": {
-    "file": "assets/home-first-view-CzUMS8pE.css",
+    "file": "assets/home-first-view-CbkrUavP.css",
     "src": "resources/sources/main/home-first-view.scss",
     "isEntry": true
   },
   "resources/sources/main/home-non-first-view.scss": {
+    "file": "assets/home-non-first-view-uvBumCKy.css",
+    "src": "resources/sources/main/home-non-first-view.scss",
+    "isEntry": true
+  },
+  "resources/sources/main/page-first-view.scss": {
+    "file": "assets/page-first-view-imPnGzjy.css",
+    "src": "resources/sources/main/page-first-view.scss",
+    "isEntry": true
+  },
+  "resources/sources/main/page-non-first-view.scss": {
     "file": "assets/home-non-first-view-uvBumCKy.css",
     "src": "resources/sources/main/home-non-first-view.scss",
     "isEntry": true

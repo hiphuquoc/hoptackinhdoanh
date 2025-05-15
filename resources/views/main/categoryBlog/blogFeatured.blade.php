@@ -1,6 +1,6 @@
 <div class="blogSiderbarBox">
     <div class="blogSiderbarBox_head">
-        <h2>{{ config('data_language_1.'.$language.'.featured_articles') }}</h2>
+        {{ config('data_language_1.'.$language.'.featured_articles') }}
     </div>
     <div class="blogSiderbarBox_box">
         @foreach($blogFeatured as $blog)
@@ -28,8 +28,8 @@
                             @endif
                         </a>
                         <div class="blogSiderbarBox_box_item_content">
-                            <a href="{{ $urlArticle }}" class="blogSiderbarBox_box_item_content_title">
-                                <h3 class="maxLine_2">{{ $title }}</h3>
+                            <a href="{{ $urlArticle }}" class="blogSiderbarBox_box_item_content_title maxLine_2">
+                                {{ $title }}
                             </a>
                             <div class="blogSiderbarBox_box_item_content_info">
                                 <div>Admin Name</div> 

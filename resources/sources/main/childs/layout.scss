@@ -1,0 +1,60 @@
+.layoutPageCategoryBlog {
+    display: flex;
+    align-items: stretch;
+    gap: 2rem;
+    justify-content: center;
+    // text-align: justify;
+    &_main {
+        width: 100%;
+    }
+    &_sidebar {
+        flex: 0 0 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: relative;
+    }
+    @media(max-width:1199px){
+        gap: 1.5rem;
+        &_sidebar {
+            flex: 0 0 280px;
+        }
+    }
+    @media(max-width: 991px){
+        gap: 1.25rem;
+        &_sidebar {
+            display: none;
+        }
+    }
+}
+
+.sectionBox {
+    &_desc {
+        margin-bottom: 1rem;
+    }
+}
+
+.sidebarBox {
+    &_title {
+        color: rgb(var(--colorTitle));
+        font-family: $fontTitle;
+        font-size: calc(var(--fontSizeNormal) + 0.35rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+        line-height: calc(var(--lineHeightNormal) + 0.25rem);
+    }
+    &_box {
+        &_tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            &_item {
+                background: rgba(var(--colorSLv1), 0.25);
+                padding: 0.25rem 0.75rem;
+                font-size: 0.875rem;
+                font-weight: 500;
+                border-radius: 50px;
+            }
+        }
+    }
+}

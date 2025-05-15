@@ -1,4 +1,4 @@
-@extends('layouts.wallpaper')
+@extends('layouts.main')
 @push('cssFirstView')
     <!-- trường hợp là local thì dùng vite để chạy npm run dev lúc code -->
     @if(env('APP_ENV')=='local')
@@ -42,35 +42,59 @@
 @endpush
 @section('content')
 
-    <div class="articleBox distanceBetweenBox">
-        <div class="pagePageBox distanceBetweenSubbox">
-            <!-- breadcrumb -->
-            @include('main.template.breadcrumb')
-            <!-- tiêu đề -->
-            <h1 class="titlePage">{{ $itemSeo->title ?? $item->seo->title ?? null }}</h1>
-            <!-- Nội dung -->
-            @if(!empty($itemSeo->contents))
-                @php
-                    $xhtmlContent = '';
-                    foreach($itemSeo->contents as $content) $xhtmlContent .= $content->content;
-                @endphp
-                <div class="contentBox">{!! $xhtmlContent !!}</div>
-            @endif
+    @include('main.snippets.breadcrumb')
+
+    <div class="pageContent">
+        <div class="layoutPageCategoryBlog container">
+            <div class="layoutPageCategoryBlog_main">
+                
+                <!-- bussiness box -->
+                <div class="sectionBox">
+
+                    <h1 class="titlePage">{{ $itemSeo->title ?? null }}</h1>
+                    
+                    <!-- Nội dung -->
+                    <div id="js_buildTocContentMain_element">
+                        <div class="contentBox">
+                            <div id="tocContentMain">{!! $dataContent['toc_content'] !!}</div>
+                            @php
+                                $contentShow = !empty(trim($dataContent['content'])) ? $dataContent['content'] : '<div>Nội dung đang được cập nhật!</div>';
+                            @endphp
+                            {!! $contentShow !!}
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+            <div class="layoutPageCategoryBlog_sidebar">
+                @include('main.page.sideBar')
+            </div>
         </div>
     </div>
+
 @endsection
 @push('modal')
 
 @endpush
 @push('bottom')
     <!-- Header bottom -->
-    @include('main.snippets.headerBottom')
+    {{-- @include('main.snippets.headerBottom') --}}
     <!-- === START:: Zalo Ring === -->
     {{-- @include('main.snippets.zaloRing') --}}
     <!-- === END:: Zalo Ring === -->
 @endpush
 @push('scriptCustom')
     <script type="text/javascript">
-        
+        document.addEventListener('DOMContentLoaded', function() {
+            /* build tocContent khi scroll gần tới */
+            const elementBuildTocContent = $('#js_buildTocContentMain_element');
+            /* build toc content */
+            if(elementBuildTocContent.length){
+                if (!elementBuildTocContent.hasClass('loaded')) {
+                    buildTocContentMain('js_buildTocContentMain_element');
+                }
+            }    
+        });
     </script>
 @endpush

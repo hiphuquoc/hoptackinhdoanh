@@ -17,6 +17,7 @@
     
     <div id="js_openCloseModal_blur">
         <!-- === START:: Header === -->
+        <input type="hidden" id="language" name="language" value="{{ $language ?? 'vi' }}" />
         @include('main.snippets.headerTop')
         @include('main.snippets.headerMain')
         <!-- === END:: Header === -->
@@ -32,17 +33,18 @@
             <div class="content-overlay"></div>
             @yield('content')
         </div>
+        
 
-        {{-- <!-- === START:: Footer === -->
+        <!-- === START:: Footer === -->
         @include('main.snippets.footer')
         <!-- === END:: Footer === -->
 
         <div class="bottom">
-            <div id="gotoTop" class="gotoTop" onclick="javascript:gotoTop();" style="display: block;">
-                <i class="fas fa-chevron-up"></i>
+            <div id="smoothScrollToTop" class="gotoTop" onclick="javascript:smoothScrollToTop();">
+                <svg><use xlink:href="#icon_arrow_up"></use></svg>
             </div>
             @stack('bottom')
-        </div> --}}
+        </div>
 
     </div>
 

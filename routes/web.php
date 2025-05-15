@@ -22,22 +22,15 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\SourceController;
-use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\ImageController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\ThemeController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\ExchangeController;
+use App\Http\Controllers\Admin\ExchangeTagController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\CategoryBlogController;
 use App\Http\Controllers\Admin\BlogController;
-use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CacheController;
-use App\Http\Controllers\Admin\WallpaperController;
-use App\Http\Controllers\Admin\FreeWallpaperController;
-use App\Http\Controllers\Admin\SeoFreeWallpaperController;
-use App\Http\Controllers\Admin\ProductPriceController;
 use App\Http\Controllers\Admin\RedirectController;
 use App\Http\Controllers\Admin\PromptController;
 use App\Http\Controllers\Admin\ApiAIController;
@@ -122,33 +115,6 @@ Route::middleware(['auth', 'role:admin', 'check.admin.subdomain'])->prefix('he-t
         Route::get('/create', [RedirectController::class, 'create'])->name('admin.redirect.create');
         Route::get('/delete', [RedirectController::class, 'delete'])->name('admin.redirect.delete');
     });
-    /* wallpaper */
-    Route::prefix('wallpaper')->group(function(){
-        Route::get('/list', [WallpaperController::class, 'list'])->name('admin.wallpaper.list');
-        Route::post('/loadOneRow', [WallpaperController::class, 'loadOneRow'])->name('admin.wallpaper.loadOneRow');
-        Route::post('/loadModalUploadAndEdit', [WallpaperController::class, 'loadModalUploadAndEdit'])->name('admin.wallpaper.loadModalUploadAndEdit');
-        Route::post('/uploadWallpaperWithSource', [WallpaperController::class, 'uploadWallpaperWithSource'])->name('admin.wallpaper.uploadWallpaperWithSource');
-        Route::post('/changeWallpaperWithSource', [WallpaperController::class, 'changeWallpaperWithSource'])->name('admin.wallpaper.changeWallpaperWithSource');
-        Route::post('/deleteWallpaperAndSource', [WallpaperController::class, 'deleteWallpaperAndSource'])->name('admin.wallpaper.deleteWallpaperAndSource');
-        Route::post('/loadFormUploadSourceAndWallpaper', [WallpaperController::class, 'loadFormUploadSourceAndWallpaper'])->name('admin.wallpaper.loadFormUploadSourceAndWallpaper');
-        Route::post('/searchWallpapers', [WallpaperController::class, 'searchWallpapers'])->name('admin.wallpaper.searchWallpapers');
-    });
-    /* free wallpaper */
-    Route::prefix('freeWallpaper')->group(function(){
-        Route::get('/list', [FreeWallpaperController::class, 'list'])->name('admin.freeWallpaper.list');
-        Route::post('/loadOneRow', [FreeWallpaperController::class, 'loadOneRow'])->name('admin.freeWallpaper.loadOneRow');
-        Route::post('/loadModalUploadAndEdit', [FreeWallpaperController::class, 'loadModalUploadAndEdit'])->name('admin.freeWallpaper.loadModalUploadAndEdit');
-        Route::post('/uploadWallpaper', [FreeWallpaperController::class, 'uploadWallpaper'])->name('admin.freeWallpaper.uploadWallpaper');
-        Route::post('/updateWallpaper', [FreeWallpaperController::class, 'updateWallpaper'])->name('admin.freeWallpaper.updateWallpaper');
-        Route::post('/deleteWallpaper', [FreeWallpaperController::class, 'deleteWallpaper'])->name('admin.freeWallpaper.deleteWallpaper');
-        Route::post('/addFormUpload', [FreeWallpaperController::class, 'addFormUpload'])->name('admin.freeWallpaper.addFormUpload');
-    });
-    /* seo free wallpaper */
-    Route::prefix('seoFreeWallpaper')->group(function(){
-        Route::get('/list', [SeoFreeWallpaperController::class, 'list'])->name('admin.seoFreeWallpaper.list');
-        Route::get('/view', [SeoFreeWallpaperController::class, 'view'])->name('admin.seoFreeWallpaper.view');
-        Route::post('/createAndUpdate', [SeoFreeWallpaperController::class, 'createAndUpdate'])->name('admin.seoFreeWallpaper.createAndUpdate');
-    });
     /* prompt */
     Route::prefix('prompt')->group(function(){
         Route::get('/list', [PromptController::class, 'list'])->name('admin.prompt.list');
@@ -163,24 +129,6 @@ Route::middleware(['auth', 'role:admin', 'check.admin.subdomain'])->prefix('he-t
         Route::get('/list', [ApiAIController::class, 'list'])->name('admin.apiai.list');
         Route::get('/view', [ApiAIController::class, 'view'])->name('admin.apiai.view');
         Route::get('/changeApiActive', [ApiAIController::class, 'changeApiActive'])->name('admin.apiai.changeApiActive');
-    });
-    /* product */
-    Route::prefix('product')->group(function(){
-        Route::get('/list', [ProductController::class, 'list'])->name('admin.product.list');
-        Route::get('/listLanguageNotExists', [ProductController::class, 'listLanguageNotExists'])->name('admin.product.listLanguageNotExists');
-        Route::get('/view', [ProductController::class, 'view'])->name('admin.product.view');
-        Route::post('/createAndUpdate', [ProductController::class, 'createAndUpdate'])->name('admin.product.createAndUpdate');
-        // Route::post('/create', [ProductController::class, 'create'])->name('admin.product.create');
-        // Route::post('/update', [ProductController::class, 'update'])->name('admin.product.update');
-        Route::post('/searchProductCopied', [ProductController::class, 'searchProductCopied'])->name('admin.product.searchProductCopied');
-        Route::post('/updateProductCopied', [ProductController::class, 'updateProductCopied'])->name('admin.product.updateProductCopied');
-        Route::get('/delete', [ProductController::class, 'delete'])->name('admin.product.delete');
-    });
-    /* product price */
-    Route::prefix('productPrice')->group(function(){
-        Route::post('/loadWallpaperByProductPrice', [ProductPriceController::class, 'loadWallpaperByProductPrice'])->name('admin.productPrice.loadWallpaperByProductPrice');
-        Route::post('/addWallpaperToProductPrice', [ProductPriceController::class, 'addWallpaperToProductPrice'])->name('admin.productPrice.addWallpaperToProductPrice');
-        Route::post('/deleteWallpaperToProductPrice', [ProductPriceController::class, 'deleteWallpaperToProductPrice'])->name('admin.productPrice.deleteWallpaperToProductPrice');
     });
     /* category */
     Route::prefix('category')->group(function(){
@@ -209,6 +157,20 @@ Route::middleware(['auth', 'role:admin', 'check.admin.subdomain'])->prefix('he-t
         Route::post('/createAndUpdate', [PageController::class, 'createAndUpdate'])->name('admin.page.createAndUpdate');
         Route::get('/delete', [PageController::class, 'delete'])->name('admin.page.delete');
     });
+    /* exchange */
+    Route::prefix('exchange')->group(function(){
+        Route::get('/list', [ExchangeController::class, 'list'])->name('admin.exchange.list');
+        Route::get('/view', [ExchangeController::class, 'view'])->name('admin.exchange.view');
+        Route::post('/createAndUpdate', [ExchangeController::class, 'createAndUpdate'])->name('admin.exchange.createAndUpdate');
+        Route::get('/delete', [ExchangeController::class, 'delete'])->name('admin.exchange.delete');
+    });
+    /* exchange tag */
+    Route::prefix('exchangeTag')->group(function(){
+        Route::get('/list', [ExchangeTagController::class, 'list'])->name('admin.exchangeTag.list');
+        Route::get('/view', [ExchangeTagController::class, 'view'])->name('admin.exchangeTag.view');
+        Route::post('/createAndUpdate', [ExchangeTagController::class, 'createAndUpdate'])->name('admin.exchangeTag.createAndUpdate');
+        Route::get('/delete', [ExchangeTagController::class, 'delete'])->name('admin.exchangeTag.delete');
+    });
     /* ===== Category Blog ===== */
     Route::prefix('categoryBlog')->group(function(){
         Route::get('/', [CategoryBlogController::class, 'list'])->name('admin.categoryBlog.list');
@@ -223,39 +185,6 @@ Route::middleware(['auth', 'role:admin', 'check.admin.subdomain'])->prefix('he-t
         Route::post('/createAndUpdate', [BlogController::class, 'createAndUpdate'])->name('admin.blog.createAndUpdate');
         /* Delete AJAX */
         Route::get('/delete', [BlogController::class, 'delete'])->name('admin.blog.delete');
-        Route::get('/loadProduct', [BlogController::class, 'loadProduct'])->name('admin.blog.loadProduct');
-        Route::get('/chooseProduct', [BlogController::class, 'chooseProduct'])->name('admin.blog.chooseProduct');
-        Route::get('/loadThemeProductChoosed', [BlogController::class, 'loadThemeProductChoosed'])->name('admin.blog.loadThemeProductChoosed');
-        Route::get('/removeOneProductChoosed', [BlogController::class, 'removeOneProductChoosed'])->name('admin.blog.removeOneProductChoosed');
-        Route::get('/clearProductChoosed', [BlogController::class, 'clearProductChoosed'])->name('admin.blog.clearProductChoosed');
-        Route::get('/getListProductChoose', [BlogController::class, 'getListProductChoose'])->name('admin.blog.getListProductChoose');
-        Route::get('/callAIWritePerProduct', [BlogController::class, 'callAIWritePerProduct'])->name('admin.blog.callAIWritePerProduct');
-    });
-    /* ===== Order ===== */
-    Route::prefix('order')->group(function(){
-        Route::get('/', [OrderController::class, 'list'])->name('admin.order.list');
-        Route::get('/view', [OrderController::class, 'view'])->name('admin.order.view');
-        Route::get('/viewExport', [OrderController::class, 'viewExport'])->name('admin.order.viewExport');
-        // Route::post('/create', [OrderController::class, 'create'])->name('admin.order.create');
-        /* Delete AJAX */
-        // Route::get('/delete', [BlogController::class, 'delete'])->name('admin.blog.delete');
-    });
-    /* setting */
-    Route::prefix('setting')->group(function(){
-        Route::get('/view', [SettingController::class, 'view'])->name('admin.setting.view');
-        Route::get('/slider', [SettingController::class, 'slider'])->name('admin.setting.slider');
-    });
-    /* theme */
-    Route::prefix('theme')->group(function(){
-        Route::get('/view', [ThemeController::class, 'view'])->name('admin.theme.view');
-        Route::post('/create', [ThemeController::class, 'create'])->name('admin.theme.create');
-        Route::post('/update', [ThemeController::class, 'update'])->name('admin.theme.update');
-        Route::get('/list', [ThemeController::class, 'list'])->name('admin.theme.list');
-        Route::get('/{id}/setColor', [ThemeController::class, 'setColor'])->name('admin.theme.setColor');
-    });
-    /* slider */
-    Route::prefix('slider')->group(function(){
-        Route::post('/remove', [SliderController::class, 'remove'])->name('admin.slider.remove');
     });
     /* gallery */
     Route::prefix('gallery')->group(function(){
@@ -340,36 +269,34 @@ Route::middleware(['check.domain'])->group(function () {
     /* AJAX */
     Route::get('/buildTocContentMain', [AjaxController::class, 'buildTocContentMain'])->name('main.buildTocContentMain');
     Route::get('/loadLoading', [AjaxController::class, 'loadLoading'])->name('ajax.loadLoading');
-    Route::get('/loadDistrictByIdProvince', [AjaxController::class, 'loadDistrictByIdProvince'])->name('ajax.loadDistrictByIdProvince');
+    // Route::get('/loadDistrictByIdProvince', [AjaxController::class, 'loadDistrictByIdProvince'])->name('ajax.loadDistrictByIdProvince');
     Route::get('/registryEmail', [AjaxController::class, 'registryEmail'])->name('ajax.registryEmail');
     // Route::get('/registrySeller', [AjaxController::class, 'registrySeller'])->name('ajax.registrySeller');
     Route::get('/setMessageModal', [AjaxController::class, 'setMessageModal'])->name('ajax.setMessageModal');
     Route::get('/checkLoginAndSetShow', [AjaxController::class, 'checkLoginAndSetShow'])->name('ajax.checkLoginAndSetShow');
     Route::get('/loadImageFromGoogleCloud', [AjaxController::class, 'loadImageFromGoogleCloud'])->name('ajax.loadImageFromGoogleCloud');
-    Route::get('/loadImageSource', [AjaxController::class, 'loadImageSource'])->name('ajax.loadImageSource');
-    Route::get('/downloadImageSource', [AjaxController::class, 'downloadImageSource'])->name('ajax.downloadImageSource');
-    Route::get('/setViewBy', [AjaxController::class, 'setViewBy'])->name('ajax.setViewBy');
-    Route::get('/showSortBoxFreeWallpaper', [AjaxController::class, 'showSortBoxFreeWallpaper'])->name('ajax.showSortBoxFreeWallpaper');
-    Route::get('/showSortBoxWallpaper', [AjaxController::class, 'showSortBoxWallpaper'])->name('ajax.showSortBoxWallpaper');
-    Route::get('/showSortBoxFreeWallpaperInTag', [AjaxController::class, 'showSortBoxFreeWallpaperInTag'])->name('ajax.showSortBoxFreeWallpaperInTag');
-    Route::get('/setSortBy', [AjaxController::class, 'setSortBy'])->name('ajax.setSortBy');
-    Route::get('/downloadImgFreeWallpaper', [AjaxController::class, 'downloadImgFreeWallpaper'])->name('ajax.downloadImgFreeWallpaper');
-    Route::get('/setFeelingFreeWallpaper', [AjaxController::class, 'setFeelingFreeWallpaper'])->name('ajax.setFeelingFreeWallpaper');
-    Route::get('/loadOneFreeWallpaper', [AjaxController::class, 'loadOneFreeWallpaper'])->name('ajax.loadOneFreeWallpaper');
-    Route::get('/loadMoreWallpaper', [CategoryMoneyPublic::class, 'loadMoreWallpaper'])->name('main.category.loadMoreWallpaper');
-    Route::get('/loadmoreFreeWallpapers', [CategoryPublic::class, 'loadmoreFreeWallpapers'])->name('main.category.loadmoreFreeWallpapers');
+    // Route::get('/loadImageSource', [AjaxController::class, 'loadImageSource'])->name('ajax.loadImageSource');
+    // Route::get('/downloadImageSource', [AjaxController::class, 'downloadImageSource'])->name('ajax.downloadImageSource');
+    // Route::get('/setViewBy', [AjaxController::class, 'setViewBy'])->name('ajax.setViewBy');
+    // Route::get('/showSortBoxFreeWallpaper', [AjaxController::class, 'showSortBoxFreeWallpaper'])->name('ajax.showSortBoxFreeWallpaper');
+    // Route::get('/showSortBoxWallpaper', [AjaxController::class, 'showSortBoxWallpaper'])->name('ajax.showSortBoxWallpaper');
+    // Route::get('/showSortBoxFreeWallpaperInTag', [AjaxController::class, 'showSortBoxFreeWallpaperInTag'])->name('ajax.showSortBoxFreeWallpaperInTag');
+    // Route::get('/setSortBy', [AjaxController::class, 'setSortBy'])->name('ajax.setSortBy');
+    // Route::get('/downloadImgFreeWallpaper', [AjaxController::class, 'downloadImgFreeWallpaper'])->name('ajax.downloadImgFreeWallpaper');
+    // Route::get('/setFeelingFreeWallpaper', [AjaxController::class, 'setFeelingFreeWallpaper'])->name('ajax.setFeelingFreeWallpaper');
+    // Route::get('/loadOneFreeWallpaper', [AjaxController::class, 'loadOneFreeWallpaper'])->name('ajax.loadOneFreeWallpaper');
+    // Route::get('/loadMoreWallpaper', [CategoryMoneyPublic::class, 'loadMoreWallpaper'])->name('main.category.loadMoreWallpaper');
+    // Route::get('/loadmoreFreeWallpapers', [CategoryPublic::class, 'loadmoreFreeWallpapers'])->name('main.category.loadmoreFreeWallpapers');
     Route::get('/loadInfoCategory', [CategoryPublic::class, 'loadInfoCategory'])->name('main.category.loadInfoCategory');
-    Route::get('/toogleHeartFeelingFreeWallpaper', [AjaxController::class, 'toogleHeartFeelingFreeWallpaper'])->name('ajax.toogleHeartFeelingFreeWallpaper');
-    Route::get('/loadLinkDownloadGuide', [AjaxController::class, 'loadLinkDownloadGuide'])->name('ajax.loadLinkDownloadGuide');
-    Route::get('/loadProductPrice', [AjaxController::class, 'loadProductPrice'])->name('ajax.loadProductPrice');
-    Route::get('/calculaterRightPrice', [AjaxController::class, 'calculaterRightPrice'])->name('ajax.calculaterRightPrice');
+    // Route::get('/toogleHeartFeelingFreeWallpaper', [AjaxController::class, 'toogleHeartFeelingFreeWallpaper'])->name('ajax.toogleHeartFeelingFreeWallpaper');
+    // Route::get('/loadLinkDownloadGuide', [AjaxController::class, 'loadLinkDownloadGuide'])->name('ajax.loadLinkDownloadGuide');
+    // Route::get('/loadProductPrice', [AjaxController::class, 'loadProductPrice'])->name('ajax.loadProductPrice');
+    // Route::get('/calculaterRightPrice', [AjaxController::class, 'calculaterRightPrice'])->name('ajax.calculaterRightPrice');
     /* Search */
     Route::get('/searchAjax', [SearchController::class, 'searchAjax'])->name('search.searchAjax');
     /* setting */
     Route::get('/settingCollapsedMenu', [SettingPublic::class, 'settingCollapsedMenu'])->name('main.settingCollapsedMenu');
     Route::get('/getStatusCollapse', [SettingPublic::class, 'getStatusCollapse'])->name('main.getStatusCollapse');
-    Route::get('/settingGPSVisitor', [SettingPublic::class, 'settingGPSVisitor'])->name('main.settingGPSVisitor');
-    Route::get('/settingIpVisitor', [SettingPublic::class, 'settingIpVisitor'])->name('main.settingIpVisitor');
     Route::get('/settingTimezoneVisitor', [SettingPublic::class, 'settingTimezoneVisitor'])->name('main.settingTimezoneVisitor');
     /* trang chủ */
     $validLanguages = ['']; // Ngôn ngữ mặc định

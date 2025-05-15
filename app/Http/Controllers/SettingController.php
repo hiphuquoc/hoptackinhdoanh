@@ -16,61 +16,33 @@ use Carbon\CarbonTimeZone;
 
 class SettingController extends Controller {
 
-    public static function settingIpVisitor(){
-        $infoCountry    = GeoIP::getLocation();
-        // Lấy hệ số giá từ bảng ISO3166
-        $tmp    = ISO3166::select('percent_discount')
-                    ->where('alpha_2', $infoCountry['iso_code'])
-                    ->first();
-        $percentDiscount = $tmp->percent_discount ?? 1;
-        if(!empty($infoCountry['country_name'])&&!empty($infoCountry['iso_code'])){
-            $infoSave    = [
-                'country_name'      => $infoCountry['country_name'],
-                'iso_code'          => $infoCountry['iso_code'],
-                'percent_discount'  => $percentDiscount,
-            ];
-            // // Thiết lập session
-            // $flag = session()->put('info_ip', $infoSave);
-            // // Ghi session ngay lập tức
-            // session()->save();
+    // public static function settingGPSVisitor(Request $request){
+    //     $infoCountry = self::getCountryFromNominatim($request->get('latitude'), $request->get('longitude'));
+    //     // Lấy hệ số giá từ bảng ISO3166
+    //     $tmp    = ISO3166::select('percent_discount')
+    //                 ->where('alpha_2', $infoCountry['iso_code'])
+    //                 ->first();
+    //     $percentDiscount = $tmp->percent_discount ?? 1;
+    //     if(!empty($infoCountry['country_name'])&&!empty($infoCountry['iso_code'])){
+    //         $infoSave = [
+    //             'country_name'      => $infoCountry['country_name'],
+    //             'iso_code'          => $infoCountry['iso_code'],
+    //             'percent_discount'  => $percentDiscount,
+    //         ];
+    //         // // Thiết lập session
+    //         // session()->put('info_gps', $infoSave);
+    //         // // Ghi session ngay lập tức
+    //         // session()->save();
 
-            // lưu Cache để dùng ngay
-            Cache::put('info_ip', $infoSave, now()->addMinutes(1));
-            // Lưu thông tin vào cookie
-            $cookie = cookie('info_ip', json_encode($infoSave), 3600); // Lưu trong 3600 phút
+    //         // lưu Cache để dùng ngay
+    //         Cache::put('info_gps', $infoSave, now()->addMinutes(1));
+    //         // Lưu thông tin vào cookie
+    //         $cookie = cookie('info_gps', json_encode($infoSave), 3600); // Lưu trong 3600 phút
 
-            return response()->json(['flag' => true])->cookie($cookie);
-        }
-        return response()->json(['flag' => false]);
-    }
-
-    public static function settingGPSVisitor(Request $request){
-        $infoCountry = self::getCountryFromNominatim($request->get('latitude'), $request->get('longitude'));
-        // Lấy hệ số giá từ bảng ISO3166
-        $tmp    = ISO3166::select('percent_discount')
-                    ->where('alpha_2', $infoCountry['iso_code'])
-                    ->first();
-        $percentDiscount = $tmp->percent_discount ?? 1;
-        if(!empty($infoCountry['country_name'])&&!empty($infoCountry['iso_code'])){
-            $infoSave = [
-                'country_name'      => $infoCountry['country_name'],
-                'iso_code'          => $infoCountry['iso_code'],
-                'percent_discount'  => $percentDiscount,
-            ];
-            // // Thiết lập session
-            // session()->put('info_gps', $infoSave);
-            // // Ghi session ngay lập tức
-            // session()->save();
-
-            // lưu Cache để dùng ngay
-            Cache::put('info_gps', $infoSave, now()->addMinutes(1));
-            // Lưu thông tin vào cookie
-            $cookie = cookie('info_gps', json_encode($infoSave), 3600); // Lưu trong 3600 phút
-
-            return response()->json(['flag' => true])->cookie($cookie);
-        }
-        return response()->json(['flag' => false]);
-    }
+    //         return response()->json(['flag' => true])->cookie($cookie);
+    //     }
+    //     return response()->json(['flag' => false]);
+    // }
 
     public static function settingTimezoneVisitor(Request $request){
         $timezone   = $request->get('timezone');

@@ -7,7 +7,7 @@ $backgroundImage: 'https://hitour.vn/images/main/hitour-background.png';
 @mixin titleDefault {
   color: rgb(var(--colorText));
   font-family: $fontTitle;
-  line-height: calc(var(--lineHeightNormal) - 0.3);
+  line-height: calc(var(--lineHeightNormal) + 0.55rem);
   margin-bottom: 0;
   text-transform: capitalize;
   text-align: left;
@@ -466,24 +466,25 @@ $radiusBoxLarge : 1rem;
 @mixin infoOfBlog {
   display: flex;
   gap: 1rem;
-  font-size: calc(var(--fontSizeNormal) - 0.125rem);
+  // font-size: calc(var(--fontSizeNormal) - 0.125rem);
   > * {
-    color: rgba(var(--colorText), 0.75);
-    background: rgba(var(--colorBackgroundLv3), 0.75);
-    padding: 0.15rem 1rem;
-    border-radius: $radiusBoxLarge;
+    background: rgba(var(--colorSLv1), 0.25);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     @media(max-width: 767px){
-        padding: 0.15rem 0.75rem;
+        padding: 0.25rem 0.75rem;
         &:last-child {
             display: none;
         }
     }
     @media(max-width: 767px){
-        padding: 0.15rem 0.5rem;
+        padding: 0.25rem 0.5rem;
     }
   }
   svg {
@@ -612,6 +613,29 @@ $radiusBoxLarge : 1rem;
                   width: 25px !important;
               }
           }
+      }
+  }
+}
+
+@mixin subTitleOfExchange {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  color: rgb(var(--colorDesc));
+  &_item {
+      display: flex;
+      align-items: center;
+      gap: 0.325rem;
+      height: 20px;
+      svg {
+          width: 1.2rem;
+          height: 1.2rem;
+          color: rgb(var(--colorIcon));
+      }
+      &:not(:first-child){
+          border-left: 1px solid rgb(var(--colorBackgroundLv3));
+          padding-left: 0.75rem;
       }
   }
 }

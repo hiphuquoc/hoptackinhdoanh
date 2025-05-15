@@ -41,18 +41,18 @@ class AjaxController extends Controller {
         echo $xhtml;
     }
 
-    public static function loadDistrictByIdProvince(Request $request){
-        $response           = '<option value="0" selected>- Vui lòng chọn -</option>';
-        if(!empty($request->get('province_info_id'))){
-            $districts      = District::select('*')
-                                ->where('province_id', $request->get('province_info_id'))
-                                ->get();
-            foreach($districts as $district){
-                $response   .= '<option value="'.$district->id.'">'.$district->district_name.'</option>';
-            }
-        }
-        echo $response;
-    }
+    // public static function loadDistrictByIdProvince(Request $request){
+    //     $response           = '<option value="0" selected>- Vui lòng chọn -</option>';
+    //     if(!empty($request->get('province_info_id'))){
+    //         $districts      = District::select('*')
+    //                             ->where('province_id', $request->get('province_info_id'))
+    //                             ->get();
+    //         foreach($districts as $district){
+    //             $response   .= '<option value="'.$district->id.'">'.$district->district_name.'</option>';
+    //         }
+    //     }
+    //     echo $response;
+    // }
 
     public static function registryEmail(Request $request){
         $idRegistryEmail        = RegistryEmail::insertItem([

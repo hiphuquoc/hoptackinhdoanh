@@ -107,8 +107,6 @@
     </form>
 @endsection
 @push('modal')
-    <!-- modal chọn sản phẩm viết bài -->
-    @include('admin.blog.formChooseProduct')
     <!-- modal chọn thumnail -->
     @include('admin.form.formModalChooseLanguageBeforeDeletePage')
 @endpush

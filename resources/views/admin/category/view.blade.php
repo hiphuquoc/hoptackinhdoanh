@@ -96,10 +96,10 @@
                         <div class="pageAdminWithRightSidebar_main_rightSidebar_item">
                             @include('admin.form.formSlider')
                         </div> --}}
-                        <!-- Form Gallery -->
+                        {{-- <!-- Form Gallery -->
                         <div class="pageAdminWithRightSidebar_main_rightSidebar_item">
                             @include('admin.category.formGallery')
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <!-- END:: Sidebar content -->

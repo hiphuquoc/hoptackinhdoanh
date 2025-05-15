@@ -1,4 +1,4 @@
-@extends('layouts.wallpaper')
+@extends('layouts.main')
 @push('cssFirstView')
     <!-- trường hợp là local thì dùng vite để chạy npm run dev lúc code -->
     @if(env('APP_ENV')=='local')
@@ -49,66 +49,62 @@
 <!-- ===== END:: SCHEMA ===== -->
 @endpush
 @section('content')
-    <!-- share social -->
-    @include('main.template.shareSocial')
+
+    <!-- breadcrumb -->
+    @include('main.snippets.breadcrumb')
+
     <!-- content -->
-    <div class="articleBox distanceBetweenBox">
+    <div class="pageContent">
         
-        <div class="pageCategoryBlog distanceBetweenSubbox">
-            <!-- breadcrumb -->
-            @include('main.template.breadcrumb')
-            <!-- thân trang -->
-            <div class="layoutPageCategoryBlog">
-                <div class="layoutPageCategoryBlog_left distanceBetweenSubbox">
-                    <!-- tiêu đề -->
-                    <h1 class="titlePage">{{ $itemSeo->title }}</h1>
-                    <!-- thông tin bài viết -->
-                    <div class="blogInfoHeadBox">
-                        @foreach($item->seos as $seo)
-                            @if(!empty($seo->infoSeo->language)&&$seo->infoSeo->language==$language)
-                                <div class="blogInfoHeadBox_item maxLine_1">
-                                    <svg><use xlink:href="#icon_user"></use></svg>
-                                    Name Admin
-                                </div>
-                                <div class="blogInfoHeadBox_item maxLine_1">
-                                    <svg><use xlink:href="#icon_clock_bold"></use></svg>
-                                    {!! date('d \t\h\á\n\g m, Y', strtotime($seo->infoSeo->created_at)) !!}
-                                </div>
-                                <div class="blogInfoHeadBox_item maxLine_1">
-                                    <svg style="transform: scale(1.15)"><use xlink:href="#icon_eye_bold"></use></svg>
-                                    {{ $item->viewed }}
-                                </div> 
-                                <div class="blogInfoHeadBox_item maxLine_1">
-                                    <svg style="transform: scale(1.1)"><use xlink:href="#icon_share"></use></svg>
-                                    {{ $item->shared }}
-                                </div>
-                                @break
-                            @endif
-                        @endforeach
-                    </div>
-                    <!-- nội dung -->
-                    <div id="js_buildTocContentMain_element" class="contentBox">
-                        {!! $htmlContent !!}
-                    </div>
+        <!-- thân trang -->
+        <div class="layoutPageCategoryBlog container">
+            <div class="layoutPageCategoryBlog_main">
+                <!-- tiêu đề -->
+                <h1 class="titlePage">{{ $itemSeo->title }}</h1>
+                <!-- thông tin bài viết -->
+                <div class="blogInfoHeadBox">
+                    @foreach($item->seos as $seo)
+                        @if(!empty($seo->infoSeo->language)&&$seo->infoSeo->language==$language)
+                            <div class="blogInfoHeadBox_item maxLine_1">
+                                <svg><use xlink:href="#icon_user"></use></svg>
+                                Admin
+                            </div>
+                            <div class="blogInfoHeadBox_item maxLine_1">
+                                <svg><use xlink:href="#icon_clock_bold"></use></svg>
+                                {!! date('d \t\h\á\n\g m, Y', strtotime($seo->infoSeo->created_at)) !!}
+                            </div>
+                            <div class="blogInfoHeadBox_item maxLine_1">
+                                <svg style="transform: scale(1.15)"><use xlink:href="#icon_eye_bold"></use></svg>
+                                {{ $item->viewed }}
+                            </div> 
+                            {{-- <div class="blogInfoHeadBox_item maxLine_1">
+                                <svg style="transform: scale(1.1)"><use xlink:href="#icon_share"></use></svg>
+                                {{ $item->shared }}
+                            </div> --}}
+                            @break
+                        @endif
+                    @endforeach
                 </div>
-                <!-- sidebar -->
-                <div class="layoutPageCategoryBlog_right">
-                    <!-- bai viết nổi bật -->
-                    @if(!empty($blogFeatured)&&$blogFeatured->count()>0)
-                        @include('main.categoryBlog.blogFeatured', compact('blogFeatured', 'language'))
-                    @endif
-                    <!-- danh sách category_blog -->
-                    @if(!empty($categoriesLv2)&&$categoriesLv2->count()>0)
-                        @include('main.categoryBlog.categoryBlogList', [
-                            'categories'    => $categoriesLv2,
-                            'language'      => $language,
-                        ])
-                    @endif
+                <!-- nội dung -->
+                <div id="js_buildTocContentMain_element" class="contentBox">
+                    {!! $htmlContent !!}
                 </div>
             </div>
-
+            <!-- sidebar -->
+            <div class="layoutPageCategoryBlog_sidebar">
+                <!-- bai viết nổi bật -->
+                @if(!empty($blogFeatured)&&$blogFeatured->count()>0)
+                    @include('main.categoryBlog.blogFeatured', compact('blogFeatured', 'language'))
+                @endif
+                {{-- <!-- danh sách category_blog -->
+                @if(!empty($categoriesLv2)&&$categoriesLv2->count()>0)
+                    @include('main.categoryBlog.categoryBlogList', [
+                        'categories'    => $categoriesLv2,
+                        'language'      => $language,
+                    ])
+                @endif --}}
+            </div>
         </div>
-        <!-- bài viết liên quan -->
 
     </div>
 
@@ -128,7 +124,7 @@
 @endpush
 @push('bottom')
     <!-- Header bottom -->
-    @include('main.snippets.headerBottom')
+    {{-- @include('main.snippets.headerBottom') --}}
     <!-- === START:: Zalo Ring === -->
     {{-- @include('main.snippets.zaloRing') --}}
     <!-- === END:: Zalo Ring === -->

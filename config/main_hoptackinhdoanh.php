@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'author_name'           => 'wallsora.com',
-    'founder_name'          => 'wallsora.com',
+    'author_name'           => 'hoptackinhdoanh.com',
+    'founder_name'          => 'hoptackinhdoanh.com',
     'founder_address'       => '55 Cô Giang, Rạch Giá',
-    'founding'              => '2023-03-30',
-    'company_name'          => 'wallsora.com',
-    'email'                 => 'anhnendienthoai@gmail.com',
+    'founding'              => '2025-05-30',
+    'company_name'          => 'hoptackinhdoanh.com',
+    'email'                 => 'hoptackinhdoanh@gmail.com',
     'hotline'               => '0968.6171.68',
     'company_description'   => 'Giới thiệu dịch vụ',
     'contacts'          =>  [
@@ -37,8 +37,8 @@ return [
         'https://youtube.com/name'
     ],
     'google_cloud_storage' => [
-        'default_domain'    => 'https://'.env('GOOGLE_CLOUD_STORAGE_BUCKET').'.storage.googleapis.com/',
-        'cdn_domain'        => 'https://cdn.wallsora.com/', /* đường dẫn CDN thiết lập trên google cloud CDN */
+        // 'default_domain'    => 'https://'.env('GOOGLE_CLOUD_STORAGE_BUCKET').'.storage.googleapis.com/',
+        'cdn_domain'        => 'https://'.env('GOOGLE_CLOUD_STORAGE_BUCKET').'.storage.googleapis.com/', /* đường dẫn CDN thiết lập trên google cloud CDN */
         // 'wallpapers'        => 'test/',
         'wallpapers'        => 'wallpapers/',
         'sources'           => 'sources/',
@@ -46,38 +46,42 @@ return [
         'images'            => 'storage/images/',
     ],
     'filter'    => [
-        'price' => [
-            [
-                'name'  => 'Nhỏ hơn 100,000đ',
-                'min'   => '0',
-                'max'   => '100000'
-            ],
-            [
-                'name'  => 'Từ 100,000đ - 200,000đ',
-                'min'   => '100000',
-                'max'   => '200000'
-            ],
-            [
-                'name'  => 'Từ 200,000đ - 350,000đ',
-                'min'   => '200000',
-                'max'   => '350000'
-            ],
-            [
-                'name'  => 'Từ 350,000đ - 500,000đ',
-                'min'   => '350000',
-                'max'   => '500000'
-            ],
-            [
-                'name'  => 'Từ 500,000đ - 1,000,000đ',
-                'min'   => '500000',
-                'max'   => '1000000'
-            ],
-            [
-                'name'  => 'Trên 1,000,000đ',
-                'min'   => '1000000',
-                'max'   => '9999999999999999999999'
-            ]
-        ]
+        'tag'   => [
+            'name'  => 'tags',
+            'key'   => 'tag',
+        ],
+        'scale'   => [
+            'name'  => 'quy mô',
+            'key'   => 'scale',
+        ],
+        'industry'   => [
+            'name'  => 'nghành nghề',
+            'key'   => 'industry',
+        ],
+        'business_type'   => [
+            'name'  => 'loại hình kinh doanh',
+            'key'   => 'business_type',
+        ],
+        'partner_type'   => [
+            'name'  => 'loại hình đối tác',
+            'key'   => 'partner_type',
+        ],
+        'fund_type'   => [
+            'name'  => 'Loại hình quỹ',
+            'key'   => 'fund_type',
+        ],
+        'fund_land'   => [
+            'name'  => 'loại bất động sản',
+            'key'   => 'fund_land',
+        ],
+        'stage'   => [
+            'name'  => 'giai đoạn',
+            'key'   => 'stage',
+        ],
+        'update_time'   => [
+            'name'  => 'thời gian',
+            'key'   => 'update_time',
+        ],
     ],
     'view_by' => [
         [
@@ -231,5 +235,8 @@ return [
             'key'   => 'hot',
             'color' => 'F4631E',
         ],
-    ]
+    ],
+    'paginate'  => [
+        'per_page'  => 10,
+    ],
 ];

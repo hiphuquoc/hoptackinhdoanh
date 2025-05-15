@@ -42,6 +42,7 @@
         width: 100%;
         height: 100%;
         background: rgba(30,41,51,0.45);
+        backdrop-filter: blur(8px);
     }
     &_box {
         max-width: 600px;
@@ -168,15 +169,15 @@
     width: 100%;
     > * {
         &:not(:first-child){
-            margin-top: 1.25rem;
+            margin-top: 1.5rem;
         }
     }
     &_title {
-        font-size: calc(var(--fontSizeNormal) + 0.175rem);
-        
+        font-size: calc(var(--fontSizeNormal) + 0.35rem);
+        font-family: $fontTitle;
+        font-weight: 800;
         text-align: center;
         padding: 0;
-        letter-spacing: 0.5px;
     }
     &_body {
         display: flex;

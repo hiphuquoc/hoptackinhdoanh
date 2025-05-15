@@ -12,8 +12,8 @@
                     </a>
                     <div class="bussinessPlanBox_item_detail_text_subTitle">
                         <div class="bussinessPlanBox_item_detail_text_subTitle_item">
-                            <svg><use xlink:href="#icon_expland"></use></svg>
-                            <div>Quy mô toàn cầu</div>
+                            <svg><use xlink:href="#icon_eye_bold"></use></svg>
+                            <div>lượt xem 2k</div>
                         </div>
                         <div class="bussinessPlanBox_item_detail_text_subTitle_item">
                             <svg><use xlink:href="#icon_calendar_days"></use></svg>

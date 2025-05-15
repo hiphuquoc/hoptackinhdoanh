@@ -3,7 +3,7 @@
     position: relative;
     background: rgb(var(--colorBackgroundLv2));
     &_title {
-        padding: 0.5rem 1rem;
+        padding: 0.625rem 1rem;
         cursor: pointer;
         border-bottom: 1px solid var(--colorShadow);
         color: rgb(var(--colorText));
@@ -28,7 +28,7 @@
         }
         &_item {
             display: flex;
-            padding-top: 0.325rem;
+            padding-top: 0.5rem;
             color: rgb(var(--colorText));
             &:not(:first-child){
                 margin-top: 0.5rem;

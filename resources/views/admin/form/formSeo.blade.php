@@ -131,82 +131,40 @@
             <input type="text" id="slug" class="form-control" name="slug" value="{{ $slug }}" {{ $chatgptDataAndEvent['dataChatgpt'] ?? null }} required>
             <div class="invalid-feedback">{{ config('message.admin.validate.not_empty') }}</div>
         </div>
-        {{-- <!-- One Row -->
-        <div class="formBox_full_item">
-            <span data-toggle="tooltip" data-placement="top" title="
-                Đây là URL để người dùng truy cập (bản tiếng anh)... viết liền không dấu và ngăn cách nhau bởi dấu gạch (-)... nên chứa từ khóa SEO chính và ngắn gọn
-            ">
-                <i class="explainInput" data-feather='alert-circle'></i>
-                <label class="form-label inputRequired" for="en_slug">Slug (En)</label>
-            </span>
-            <input type="text" id="en_slug" class="form-control" name="en_slug" value="{{ old('en_slug') ?? $item->en_seo['slug'] ?? '' }}" required>
-            <div class="invalid-feedback">{{ config('message.admin.validate.not_empty') }}</div>
-        </div> --}}
-        <!-- One Row -->
-        {{-- <div class="formBox_full_item">
-            <span data-toggle="tooltip" data-placement="top" title="
-                Đây là đánh dấu trang gốc của trang này, thẻ link canonical của trang này sẽ được khai báo là đường dẫn của trang gốc để Google biết đây là trang copy của trang gốc
-            ">
-                <i class="explainInput" data-feather='alert-circle'></i>
-                <label class="form-label" for="link_canonical">Trang gốc</label>
-            </span>
-            <select class="select2 form-select select2-hidden-accessible" id="link_canonical" name="link_canonical">
-                <option value="">- Lựa chọn -</option>
-                @foreach($sources as $source)
-                    @php
-                        $selected   = null;
-                        $seoChoose  = [];
-                        foreach($source->seos as $seo){
-                            if(!empty($seo->infoSeo->language)){
-                                if($language==$seo->infoSeo->language){
-                                    $seoChoose = $seo->infoSeo;
-                                    if(!empty($idSeoSource)&&$idSeoSource==$seoChoose->id){
-                                        $selected = 'selected';
-                                    }else if(!empty($itemSeo->link_canonical)&&$itemSeo->link_canonical==$seoChoose->id){
-                                        $selected = 'selected';
-                                    } 
-                                    break;
-                                }
-                            }
-                        }
-                    @endphp
-                    @if(!empty($seoChoose))
-                        <option value="{{ $seoChoose->id }}" {{ $selected }}>{{ $source->seo->slug_full }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div> --}}
-        <div class="formBox_full_item">
-            <span data-toggle="tooltip" data-placement="top" title="
-                Đây là đánh dấu trang gốc của trang này, thẻ link canonical của trang này sẽ được khai báo là đường dẫn của trang gốc để Google biết đây là trang copy của trang gốc
-            ">
-                <i class="explainInput" data-feather='alert-circle'></i>
-                <label class="form-label" for="link_canonical">Trang gốc</label>
-            </span>
-            <select class="select2 form-select select2-hidden-accessible" id="link_canonical" name="link_canonical">
-                <option value="">- Lựa chọn -</option>
-                @foreach($sources as $source)
-                    @php
-                        $selected   = null;
-                        $seoChoose  = [];
-                        foreach($source->seos as $seo){
-                            if(!empty($seo->infoSeo->language)){
-                                if($language==$seo->infoSeo->language){
-                                    $seoChoose = $seo->infoSeo;
-                                    if(old('link_canonical') == $seoChoose->id || (!empty($idSeoSource) && $idSeoSource == $seoChoose->id) || (!empty($itemSeo->link_canonical) && $itemSeo->link_canonical == $seoChoose->id)){
-                                        $selected = 'selected';
+        
+        @if(!empty($sources)&&$sources->isNotEmpty())
+            <div class="formBox_full_item">
+                <span data-toggle="tooltip" data-placement="top" title="
+                    Đây là đánh dấu trang gốc của trang này, thẻ link canonical của trang này sẽ được khai báo là đường dẫn của trang gốc để Google biết đây là trang copy của trang gốc
+                ">
+                    <i class="explainInput" data-feather='alert-circle'></i>
+                    <label class="form-label" for="link_canonical">Trang gốc</label>
+                </span>
+                <select class="select2 form-select select2-hidden-accessible" id="link_canonical" name="link_canonical">
+                    <option value="">- Lựa chọn -</option>
+                    @foreach($sources as $source)
+                        @php
+                            $selected   = null;
+                            $seoChoose  = [];
+                            foreach($source->seos as $seo){
+                                if(!empty($seo->infoSeo->language)){
+                                    if($language==$seo->infoSeo->language){
+                                        $seoChoose = $seo->infoSeo;
+                                        if(old('link_canonical') == $seoChoose->id || (!empty($idSeoSource) && $idSeoSource == $seoChoose->id) || (!empty($itemSeo->link_canonical) && $itemSeo->link_canonical == $seoChoose->id)){
+                                            $selected = 'selected';
+                                        }
+                                        break;
                                     }
-                                    break;
                                 }
                             }
-                        }
-                    @endphp
-                    @if(!empty($seoChoose))
-                        <option value="{{ $seoChoose->id }}" {{ $selected }}>{{ $source->seo->slug_full }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
+                        @endphp
+                        @if(!empty($seoChoose))
+                            <option value="{{ $seoChoose->id }}" {{ $selected }}>{{ $source->seo->slug_full }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        @endif
         
         {{-- <!-- One Row -->
         <div class="formBox_full_item">

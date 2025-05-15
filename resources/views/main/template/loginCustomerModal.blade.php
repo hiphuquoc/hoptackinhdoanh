@@ -1,13 +1,10 @@
-@php
-    $randomWallpaper = \App\Models\FreeWallpaper::inRandomOrder()->first();
-@endphp
 <form id="formLogin" method="get" style="width:100%;">
 <div id="modalLoginFormCustomerBox" class="modalLoginFormCustomerBox">
     <!-- modal background -->
     <div class="modalLoginFormCustomerBox_bg" onClick="toggleModalCustomerLoginForm('modalLoginFormCustomerBox');"></div>
     <!-- modal box -->
     <div class="modalLoginFormCustomerBox_box">
-        <div class="modalLoginFormCustomerBox_box_left" style="background:url('{{ \App\Helpers\Image::getUrlImageCloud($randomWallpaper->file_cloud) }}') no-repeat center;background-size: cover;">
+        <div class="modalLoginFormCustomerBox_box_left" style="background:url('https://hoptackinhdoanh.storage.googleapis.com/storage/images/hop-tac-kinh-doanh-background-banner-login.webp') no-repeat center;background-size: cover;">
         </div>
         <div class="modalLoginFormCustomerBox_box_right">
             <!-- close -->
@@ -98,25 +95,6 @@
                 
             </div>
         </div>
-    </div>
-    
+    </div>    
 </div>
 </form>
-{{-- @push('scriptCustom')
-    <script type="text/javascript">
-        function toggleModalCustomerLoginForm(idElement){
-            const element   = $('#'+idElement);
-            const displayE  = element.css('display');
-            if(displayE=='none'){
-                /* hiển thị */
-                element.css('display', 'flex');
-                $('body').css('overflow', 'hidden');
-                $('#js_openCloseModal_blur').addClass('blurBackground');
-            }else {
-                element.css('display', 'none');
-                $('body').css('overflow', 'unset');
-                $('#js_openCloseModal_blur').removeClass('blurBackground');
-            }
-        }
-    </script>
-@endpush --}}

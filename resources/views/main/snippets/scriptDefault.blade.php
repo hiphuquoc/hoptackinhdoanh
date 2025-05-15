@@ -33,9 +33,6 @@
         $(window).on('scroll', function() {
             lazyload();
         });
-        
-        /* tải lại view sort cart */
-        viewSortCart();
 
         // /* hiệu ứng */
         // $('.effectFadeIn').each(function(){
@@ -54,50 +51,9 @@
         checkLoginAndSetShow();
 
         /* thông tin khách hàng */
-        settingGPSVisitor();
         settingTimezoneVisitor();
 
     });
-
-    function settingGPSVisitor() {
-        // Kiểm tra xem đã thiết lập GPS thành công (dựa trên localStorage)
-        if (localStorage.getItem('gps_set') == 'true') {
-            return; // Nếu đã thiết lập thành công, không làm gì thêm
-        }
-
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-
-                // Tạo URL với tham số truy vấn
-                const url = new URL('{{ route("main.settingGPSVisitor") }}');
-                url.searchParams.append('latitude', latitude);
-                url.searchParams.append('longitude', longitude);
-
-                fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Lưu trạng thái đã thiết lập GPS vào localStorage
-                    localStorage.setItem('gps_set', data.flag);
-                    // refresh
-                    if(data.flag) location.reload();
-                })
-                .catch(error => {
-                    console.error('Error fetching GPS data:', error);
-                });
-            }, function(error) {
-                // console.error('Error retrieving location:', error);
-            });
-        } else {
-            // console.error('Geolocation is not supported by this browser.');
-        }
-    }
 
     function settingTimezoneVisitor(){
         // Lấy múi giờ từ thiết bị người dùng
@@ -120,35 +76,6 @@
             console.error('Error setting timezone:', error);
         });
     }
-
-    // function settingIpVisitor() {
-    //     // Kiểm tra xem đã thiết lập GPS thành công (dựa trên localStorage)
-    //     if (localStorage.getItem('ip_set') == 'true') {
-    //         return; // Nếu đã thiết lập thành công, không làm gì thêm
-    //     }
-    //     // Tạo URL với tham số truy vấn
-    //     const url = new URL('{{ route("main.settingIpVisitor") }}');
-    //     fetch(url, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         }
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // Lưu trạng thái đã thiết lập Ip vào localStorage
-    //         localStorage.setItem('ip_set', data.flag);
-    //     })
-    //     .catch(error => {
-    //         console.error('Error fetching Ip data:', error);
-    //     });
-    // }
-
-    // function getInfoVisitor(){
-    //     /* time zone */
-    //     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    // }
     
     function lazyload(){
         /* đối với ảnh */
@@ -404,104 +331,104 @@
     //         elementInput.val(parseInt(valueInput)+1);
     //     }
     // }
-    /* thêm sản phẩm vào giỏ hàng */
-    function addToCart(idProduct, idPrice, type) {
-        let dataForm = {};
-        dataForm.product_info_id = idProduct;
-        dataForm.product_price_id = idPrice;
-        dataForm.type = type;
-        dataForm.language = $('#language').val();
-        const queryString = new URLSearchParams(dataForm).toString();
+    // /* thêm sản phẩm vào giỏ hàng */
+    // function addToCart(idProduct, idPrice, type) {
+    //     let dataForm = {};
+    //     dataForm.product_info_id = idProduct;
+    //     dataForm.product_price_id = idPrice;
+    //     dataForm.type = type;
+    //     dataForm.language = $('#language').val();
+    //     const queryString = new URLSearchParams(dataForm).toString();
 
-        fetch("/addToCart?" + queryString, {
-            method: 'GET',
-            mode: 'cors',
-            // headers: {
-            //     'Content-Type': 'application/json',
-            //     'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            // }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            /* reset lại value số lượng */
-            $('#js_addToCart_quantity').val(1);
-            /* hiện thông báo trong 5s */
-            $('#js_addToCart_idWrite').html(data);
-            openCloseModal('cartMessage');
-            /* cập nhật lại thông tin giỏ hàng */ 
-            viewSortCart();
-        })
-        .catch(error => {
-            console.error("Fetch request failed:", error);
-        });
-    }
-    /* tải lại thông tin icon giỏ hàng */
-    function viewSortCart() {
-        let dataForm = {};
-        dataForm.language = $('#language').val();            
-        const queryString = new URLSearchParams(dataForm).toString();
-        fetch('/viewSortCart?' + queryString, {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            $('#js_viewSortCart_idWrite').html(data); // Sử dụng dữ liệu nhận được từ phản hồi để cập nhật HTML
-        })
-        .catch(error => {
-            console.error('There was a problem with your fetch operation:', error);
-        });
-    }
-    /* xóa sản phẩm khỏi cart */ 
-    function removeProductCart(idProduct, idProductPrice, idRow, idTotal, idCount) {
-        /* tải loading */ 
-        loadLoading(idRow);
-        const language = $('#language').val();
-        fetch("/removeProductCart?product_info_id=" + idProduct + "&product_price_id=" + idProductPrice + "&language=" + language, {
-            method: 'GET',
-            mode: 'cors'
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(response => {
-            /* cart trống */
-            if (response.empty_cart !== '') $('#js_checkEmptyCart_idWrite').html(response.empty_cart);
-            $('#' + idTotal).html(response.total);
-            $('#' + idCount).html(response.count);
-            setTimeout(() => {
-                $('#' + idRow).remove();
-            }, 300);
-            /* trong page giỏ hàng => tải lại thành tiền */
-            if (typeof loadTotalCart === 'function') {
-                loadTotalCart($('#payment_method_info_id').val());
-            }
-            /* trường hợp xóa không còn sản phẩm */
-            if (response.isEmpty !== '') {
-                $('#js_checkEmptyCart_idWrite').html(response.isEmpty);
-                $('#js_scrollMenu').remove();
-            }
-        })
-        .catch(error => {
-            console.error("Fetch request failed:", error);
-        });
-    }
+    //     fetch("/addToCart?" + queryString, {
+    //         method: 'GET',
+    //         mode: 'cors',
+    //         // headers: {
+    //         //     'Content-Type': 'application/json',
+    //         //     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    //         // }
+    //     })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.text();
+    //     })
+    //     .then(data => {
+    //         /* reset lại value số lượng */
+    //         $('#js_addToCart_quantity').val(1);
+    //         /* hiện thông báo trong 5s */
+    //         $('#js_addToCart_idWrite').html(data);
+    //         openCloseModal('cartMessage');
+    //         /* cập nhật lại thông tin giỏ hàng */ 
+    //         viewSortCart();
+    //     })
+    //     .catch(error => {
+    //         console.error("Fetch request failed:", error);
+    //     });
+    // }
+    // /* tải lại thông tin icon giỏ hàng */
+    // function viewSortCart() {
+    //     let dataForm = {};
+    //     dataForm.language = $('#language').val();            
+    //     const queryString = new URLSearchParams(dataForm).toString();
+    //     fetch('/viewSortCart?' + queryString, {
+    //         method: 'GET',
+    //         mode: 'cors',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.json();
+    //     })
+    //     .then(data => {
+    //         $('#js_viewSortCart_idWrite').html(data); // Sử dụng dữ liệu nhận được từ phản hồi để cập nhật HTML
+    //     })
+    //     .catch(error => {
+    //         console.error('There was a problem with your fetch operation:', error);
+    //     });
+    // }
+    // /* xóa sản phẩm khỏi cart */ 
+    // function removeProductCart(idProduct, idProductPrice, idRow, idTotal, idCount) {
+    //     /* tải loading */ 
+    //     loadLoading(idRow);
+    //     const language = $('#language').val();
+    //     fetch("/removeProductCart?product_info_id=" + idProduct + "&product_price_id=" + idProductPrice + "&language=" + language, {
+    //         method: 'GET',
+    //         mode: 'cors'
+    //     })
+    //     .then(response => {
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         return response.json();
+    //     })
+    //     .then(response => {
+    //         /* cart trống */
+    //         if (response.empty_cart !== '') $('#js_checkEmptyCart_idWrite').html(response.empty_cart);
+    //         $('#' + idTotal).html(response.total);
+    //         $('#' + idCount).html(response.count);
+    //         setTimeout(() => {
+    //             $('#' + idRow).remove();
+    //         }, 300);
+    //         /* trong page giỏ hàng => tải lại thành tiền */
+    //         if (typeof loadTotalCart === 'function') {
+    //             loadTotalCart($('#payment_method_info_id').val());
+    //         }
+    //         /* trường hợp xóa không còn sản phẩm */
+    //         if (response.isEmpty !== '') {
+    //             $('#js_checkEmptyCart_idWrite').html(response.isEmpty);
+    //             $('#js_scrollMenu').remove();
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error("Fetch request failed:", error);
+    //     });
+    // }
     /* add loading icon */
     function loadLoading(action = 'show') {
         if(action == 'show'){
@@ -929,6 +856,19 @@
             body.css('overflow', 'hidden'); // Add overflow: hidden when element is visible
         } else {
             body.css('overflow', 'unset'); // Remove overflow style when element is hidden
+        }
+    }
+
+    function toggleModalCustomerLoginForm(idElement){
+        const element   = $('#'+idElement);
+        const displayE  = element.css('display');
+        if(displayE=='none'){
+            /* hiển thị */
+            element.css('display', 'flex');
+            $('body').css('overflow', 'hidden');
+        }else {
+            element.css('display', 'none');
+            $('body').css('overflow', 'unset');
         }
     }
 </script>

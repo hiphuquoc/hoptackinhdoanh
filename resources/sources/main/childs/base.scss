@@ -51,42 +51,54 @@ strong {
   font-weight: 800;
 }
 
-h1, h2 {
+h1 {
   @include titleDefault;
 }
 
 h2, h3, h4, h5, h6 {
   color: rgb(var(--colorTitle));
   font-family: $fontTitle;
-  line-height: calc(var(--lineHeightNormal) - 0.2);
-  font-weight: 600;
+  font-weight: 800;
   .light & {
-    font-weight: 700;
+    font-weight: 800;
+  }
+}
+
+h2 {
+  font-size: calc(var(--fontSizeNormal) + 0.525rem);
+  line-height: calc(var(--lineHeightNormal) + 0.25rem);
+  @media(max-width: 1199px){
+    font-size: calc(var(--fontSizeNormal) + 0.5rem);
+  }
+  @media(max-width: 991px){
+    font-size: calc(var(--fontSizeNormal) + 0.475rem);
   }
 }
 
 h3 {
-  font-size: calc(var(--fontSizeNormal) + 0.225rem);
+  font-size: calc(var(--fontSizeNormal) + 0.425rem);
+  line-height: calc(var(--lineHeightNormal) + 0.25rem);
   @media(max-width: 1199px){
-    font-size: calc(var(--fontSizeNormal) + 0.2rem);
+    font-size: calc(var(--fontSizeNormal) + 0.4rem);
   }
   @media(max-width: 991px){
-    font-size: calc(var(--fontSizeNormal) + 0.175rem);
+    font-size: calc(var(--fontSizeNormal) + 0.375rem);
   }
 }
 
 h4, h5, h6 {
-  font-size: calc(var(--fontSizeNormal) + 0.175rem);
+  font-size: calc(var(--fontSizeNormal) + 0.325rem);
+  line-height: calc(var(--lineHeightNormal) + 0.225rem);
   @media(max-width: 1199px){
-    font-size: calc(var(--fontSizeNormal) + 0.15rem);
+    font-size: calc(var(--fontSizeNormal) + 0.3rem);
   }
   @media(max-width: 991px){
-    font-size: calc(var(--fontSizeNormal) + 0.125rem);
+    font-size: calc(var(--fontSizeNormal) + 0.275rem);
   }
 }
 
 .titlePage {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   // &.customTitlePage {
   //   margin-bottom: 0.25rem;
   // }
@@ -190,12 +202,12 @@ form {
 }
 
 p, ul, ol, h2, h3, h4, h5, h6 {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.825rem;
   @media(max-width: 1199px){
-    margin-bottom: 0.625rem;
+    margin-bottom: 0.75rem;
   }
   @media(max-width: 991px){
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.725rem;
   }
   // @media(max-width: 767px){
   //   margin-bottom: 0.325rem;
@@ -306,25 +318,6 @@ blockquote{
 .fa-regular, .far {
     font-weight: 900 !important;
 }
-
-// .container {
-//   width: 100%;
-//   margin: 0 auto;
-//   max-width: 110rem;
-//   padding: 0 calc(1.5rem - 3px) 0 1.5rem; /* trừ cho scrollbar */
-//   @media(max-width: 1199px){
-//     padding: 0 calc(1.25rem - 2.5px) 0 1.25rem;
-//   }
-//   @media(max-width: 991px){
-//     padding: 0 1rem;
-//   }
-//   @media(max-width: 767px){
-//     padding: 0 0.75rem;
-//   }
-//   @media(max-width: 566px){
-//     padding: 0 0.5rem;
-//   }
-// }
 
 .container {
   width: 100%;
@@ -604,7 +597,7 @@ label {
   label {
     cursor: pointer;
     margin-bottom: 0;
-    font-weight: normal;
+    font-weight: 500;
     font-size: calc(var(--fontSizeNormal) - 0.075rem);
     padding: 0 0.75rem;
     opacity: var(--opacityNormal);
@@ -865,93 +858,93 @@ label {
 }
 
 .pageContent {
-  padding-top: 1rem;
-  &_head {
-      h2, h3 {
-        font-size: 1.6rem;
-        text-align: center;
-        margin-bottom: 1.5rem;
-        font-family: $fontTitle;
-      }
-  }
-  &_body {
-      display: flex;
-      &_content {
-          width: calc(100% - 350px - 1.5rem);
-      }
-      &_sidebar {
-          margin-left: 1.5rem;
-          flex: 0 0 350px;
-          > * {
-              &:not(:first-child){
-                  margin-top: 1.25rem;
-              }
-          }
-      }
-  }
-  img {
-      display: flex;
-      margin: 1rem 0 1.5rem 0;
-  }
-  h2 {
-      color: rgb(var(--colorTitle));
-      font-size: 1.25rem;
-      margin: 0.5rem 0;
-  }
-  h3 {
-      font-size: 1.15rem;
-      color: rgb(var(--colorTitle));
-  }
-  ul {
-      li {
-          &:not(:first-child){
-              margin-top: 0.25rem;
-          }
-      }
-  }
-  &.background {
-      background: $bg-02;
-  }
-  @media (max-width: 1199px){
-      &_body {
-          &_content {
-              width: calc(100% - 320px - 1.25rem);
-          }
-          &_sidebar {
-              flex: 0 0 320px;
-          }
-      }
-      img {
-          margin: 0.75rem 0 1.25rem 0;
-      }
-      h2 {
-          font-size: 1.2rem;
-      }
-  }
-  @media (max-width: 990px){
-      &_body {
-          flex-wrap: wrap;
-          &_content {
-              width: 100%;
-          }
-          &_sidebar {
-              display: none !important;
-              width: 100%;
-              margin-left: 0;
-              margin-top: 1.5rem;
-          }
-      }
-  }
-  @media (max-width: 767px){
-      padding-top: 0.75rem;
-      img {
-          margin: 0.5rem 0 1rem 0;
-      }
-      h2 {
-          font-size: 1.15rem;
-      }
-  }
-  @media (max-width: 577px){
-      padding-top: 0.5rem;
-  }
+  padding-top: 0.75rem;
+  // &_head {
+  //     h2, h3 {
+  //       font-size: 1.6rem;
+  //       text-align: center;
+  //       margin-bottom: 1.5rem;
+  //       font-family: $fontTitle;
+  //     }
+  // }
+  // &_body {
+  //     display: flex;
+  //     &_content {
+  //         width: calc(100% - 350px - 1.5rem);
+  //     }
+  //     &_sidebar {
+  //         margin-left: 1.5rem;
+  //         flex: 0 0 350px;
+  //         > * {
+  //             &:not(:first-child){
+  //                 margin-top: 1.25rem;
+  //             }
+  //         }
+  //     }
+  // }
+  // img {
+  //     display: flex;
+  //     margin: 1rem 0 1.5rem 0;
+  // }
+  // h2 {
+  //     color: rgb(var(--colorTitle));
+  //     font-size: 1.25rem;
+  //     margin: 0.5rem 0;
+  // }
+  // h3 {
+  //     font-size: 1.15rem;
+  //     color: rgb(var(--colorTitle));
+  // }
+  // ul {
+  //     li {
+  //         &:not(:first-child){
+  //             margin-top: 0.25rem;
+  //         }
+  //     }
+  // }
+  // &.background {
+  //     background: $bg-02;
+  // }
+  // @media (max-width: 1199px){
+  //     &_body {
+  //         &_content {
+  //             width: calc(100% - 320px - 1.25rem);
+  //         }
+  //         &_sidebar {
+  //             flex: 0 0 320px;
+  //         }
+  //     }
+  //     img {
+  //         margin: 0.75rem 0 1.25rem 0;
+  //     }
+  //     h2 {
+  //         font-size: 1.2rem;
+  //     }
+  // }
+  // @media (max-width: 990px){
+  //     &_body {
+  //         flex-wrap: wrap;
+  //         &_content {
+  //             width: 100%;
+  //         }
+  //         &_sidebar {
+  //             display: none !important;
+  //             width: 100%;
+  //             margin-left: 0;
+  //             margin-top: 1.5rem;
+  //         }
+  //     }
+  // }
+  // @media (max-width: 767px){
+  //     padding-top: 0.75rem;
+  //     img {
+  //         margin: 0.5rem 0 1rem 0;
+  //     }
+  //     h2 {
+  //         font-size: 1.15rem;
+  //     }
+  // }
+  // @media (max-width: 577px){
+  //     padding-top: 0.5rem;
+  // }
 }

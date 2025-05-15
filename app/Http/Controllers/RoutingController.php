@@ -17,10 +17,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Page;
 use App\Models\CategoryBlog;
-use App\Models\FreeWallpaper;
-// use App\Models\Seo;
-use App\Helpers\GeoIP;
-use App\Models\ISO3166;
+use App\Models\ExchangeTag;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -54,9 +51,6 @@ class RoutingController extends Controller{
             // Thiết lập ngôn ngữ và cấu hình theo IP
             $language = $itemSeo->language;
             SettingController::settingLanguage($language);
-            if (empty(session()->get('info_ip'))) {
-                SettingController::settingIpVisitor();
-            }
     
             // Xử lý tham số tìm kiếm và chế độ hiển thị (view mode)
             $search = request('search') ?? null;
@@ -141,14 +135,8 @@ class RoutingController extends Controller{
     
         // Xử lý theo từng loại type
         switch ($itemSeo->type) {
-            case 'free_wallpaper_info':
-                return $this->handleFreeWallpaperInfo($item, $itemSeo, $language, $breadcrumb);
-    
             case 'tag_info':
-                return $this->handleTagInfo($item, $itemSeo, $language, $breadcrumb);
-    
-            case 'product_info':
-                return $this->handleProductInfo($item, $itemSeo, $language, $breadcrumb);
+                return $this->handlePageInfo($item, $itemSeo, $language, $breadcrumb);
     
             case 'page_info':
                 return $this->handlePageInfo($item, $itemSeo, $language, $breadcrumb);
@@ -158,6 +146,9 @@ class RoutingController extends Controller{
     
             case 'blog_info':
                 return $this->handleBlogInfo($item, $itemSeo, $language, $breadcrumb);
+            
+            case 'exchange_info':
+                return $this->handleExchangeInfo($item, $itemSeo, $language, $breadcrumb);
     
             default:
                 foreach (config('main_' . env('APP_NAME') . '.category_type') as $type) {
@@ -171,92 +162,13 @@ class RoutingController extends Controller{
         return null; // Trường hợp không khớp type nào
     }
 
-    private function handleFreeWallpaperInfo($item, $itemSeo, $language, $breadcrumb) {
-        $idNot = $item->id;
-        $arrayIdCategory = [];
-        foreach ($item->categories as $category) {
-            if (!empty($category->infoCategory)) {
-                $arrayIdCategory[] = $category->infoCategory->id;
-            }
-        }
-    
-        $total = FreeWallpaper::select('*')
-            ->where('id', '!=', $item->id)
-            ->whereHas('categories.infoCategory', function ($query) use ($arrayIdCategory) {
-                $query->whereIn('id', $arrayIdCategory);
-            })
-            ->count();
-        $loaded         = 0;
-        $related = FreeWallpaper::select('*')
-            ->where('id', '!=', $item->id)
-            ->whereHas('categories.infoCategory', function ($query) use ($arrayIdCategory) {
-                $query->whereIn('id', $arrayIdCategory);
-            })
-            ->orderBy('id', 'DESC')
-            ->skip(0)
-            ->take($loaded)
-            ->get();
-    
-        return view('main.freemain.index', compact(
-            'item', 'itemSeo', 'idNot', 'breadcrumb', 'total', 'loaded', 'related', 'language', 'arrayIdCategory'
-        ))->render();
-    }
-
-    private function handleTagInfo($item, $itemSeo, $language, $breadcrumb) {
-        /* tìm theo category */
-        $arrayIdCategory    = []; /* rỗng do đang tìm theo tags */
-        /* chế độ xem */
-        $viewBy             = request()->cookie('view_by') ?? 'each_set';
-        /* tìm theo tag */
-        $arrayIdTag         = [$item->id];
-        $params = [
-            'key_search' => request()->get('search') ?? null,
-            'array_category_info_id' => [],
-            'array_tag_info_id' => $arrayIdTag,
-            'filters' => request()->get('filters') ?? [],
-            'loaded' => 0,
-            'request_load' => 10,
-            'sort_by' => Cookie::get('sort_by') ?? null,
-            'view_by'   => $viewBy,
-        ];
-        $response       = CategoryMoneyController::getWallpapers($params, $language);
-        $wallpapers     = $response['wallpapers'];
-        $total          = $response['total'];
-        $loaded         = $response['loaded'];
-        $dataContent    = CategoryMoneyController::buildTocContentMain($itemSeo->contents, $language);
-    
-        return view('main.categoryMoney.index', compact(
-            'item', 'itemSeo', 'breadcrumb', 'wallpapers', 'arrayIdCategory', 'arrayIdTag', 'total', 'loaded', 'language', 'viewBy', 'dataContent'
-        ))->render();
-    }
-
-    private function handleProductInfo($item, $itemSeo, $language, $breadcrumb) {
-        $arrayIdTag = $item->tags->pluck('tag_info_id')->toArray();
-        $total = CategoryMoneyController::getWallpapersByProductRelated($item->id, $arrayIdTag, $language, [
-            'loaded' => 0,
-            'request_load' => 0,
-        ])['total'];
-    
-        return view('main.product.index', compact(
-            'item', 'itemSeo', 'breadcrumb', 'language', 'total'
-        ))->render();
-    }
-
     private function handlePageInfo($item, $itemSeo, $language, $breadcrumb) {
-        if (!empty($item->type->code) && $item->type->code === 'my_download' && !empty(Auth::user()->email)) {
-            $emailCustomer = Auth::user()->email;
-            $infoCustomer = Customer::select('*')
-                ->where('email', $emailCustomer)
-                ->with('orders')
-                ->first();
-    
-            return view('main.account.myDownload', compact(
-                'item', 'itemSeo', 'infoCustomer', 'language', 'breadcrumb'
-            ))->render();
-        }
-    
+        $dataContent    = CategoryMoneyController::buildTocContentMain($itemSeo->contents, $language);
+        $services       = Category::select('*')
+                            ->with('seo', 'seos', 'tags')
+                            ->get();
         return view('main.page.index', compact(
-            'item', 'itemSeo', 'language', 'breadcrumb'
+            'item', 'itemSeo', 'services', 'dataContent', 'language', 'breadcrumb'
         ))->render();
     }
 
@@ -293,43 +205,16 @@ class RoutingController extends Controller{
         return $this->handlePaidCategory($item, $itemSeo, $language, $breadcrumb);
     }
     
-    private function handleFreeCategory($item, $itemSeo, $language, $breadcrumb) {
-        // Khởi tạo các tham số tìm kiếm
-        $tmp                                = Category::getTreeCategoryByInfoCategory($item, []);
-        $arrayIdCategory                    = [$item->id];
-        foreach($tmp as $t) $arrayIdCategory[] = $t->id;
-        $params = [
-            'array_category_info_id' => $arrayIdCategory,
-            'loaded' => 0,
-            'request_load' => 20, /* lấy 20 để khai báo schema */
-            'sort_by' => Cookie::get('sort_by') ?? null,
-            'filters' => request()->get('filters') ?? [],
-            'search' => request('search') ?? null,
-        ];
-    
-        // Lấy wallpapers từ controller
-        $response = CategoryController::getFreeWallpapers($params, $language);
-    
-        // Đảm bảo biến wallpapers luôn tồn tại
-        $wallpapers = $response['wallpapers'] ?? [];
-        $total = $response['total'] ?? 0;
-        $loaded = $response['loaded'] ?? 0;
-    
-        // Xử lý search_feeling (nếu có)
-        $searchFeeling = request('search_feeling') ?? [];
-        foreach ($searchFeeling as $feeling) {
-            if ($feeling === 'all') { /* Nếu có 'all', clear toàn bộ */
-                $searchFeeling = [];
-                break;
-            }
-        }
-    
-        // Xây dựng toc_content
-        $dataContent = CategoryMoneyController::buildTocContentMain($itemSeo->contents, $language);
-    
-        // Render view
-        return view('main.category.index', compact(
-            'item', 'itemSeo', 'breadcrumb', 'wallpapers', 'arrayIdCategory', 'total', 'loaded', 'language', 'searchFeeling', 'dataContent'
+    private function handleExchangeInfo($item, $itemSeo, $language, $breadcrumb) {
+        $idExchange     = $item->id;
+        $exchangeTags   = ExchangeTag::with('seo') // assuming relation is defined
+                            ->whereHas('exchanges', function($query) use($idExchange){
+                                $query->where('exchange_info_id', $idExchange);
+                            })
+                            ->get()
+                            ->groupBy('type_filter');
+        return view('main.exchange.index', compact(
+            'item', 'itemSeo', 'exchangeTags', 'language', 'breadcrumb'
         ))->render();
     }
     

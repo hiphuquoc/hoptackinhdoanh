@@ -7,83 +7,39 @@ return [
         //     'icon'      => '<i class="fa-regular fa-file-lines"></i>'
         // ],
         [
-            'name'  => 'Danh mục',
+            'name'  => 'Dịch vụ',
             'route' => '',
-            'icon'  => '<i class="fa-solid fa-layer-group"></i>',
+            'icon'  => '<i class="fa-solid fa-table-list"></i>',
             'child'     => [
                 [
-                    'name'  => '1. Danh sách',
+                    'name'  => '1. Danh mục',
                     'route' => 'admin.category.list',
                     'icon'  => '<i data-feather=\'circle\'></i>'
                 ],
                 [
-                    'name'  => '2. Ngôn ngữ',
-                    'route' => 'admin.category.listLanguageNotExists',
+                    'name'  => '2. Chi tiết',
+                    'route' => 'admin.tag.list',
                     'icon'  => '<i data-feather=\'circle\'></i>'
                 ],
             ]
         ],
         [
-            'name'  => 'Tag',
+            'name'  => 'Sàn kết nối',
             'route' => '',
-            'icon'  => '<i class="fa-solid fa-tags"></i>',
+            'icon'  => '<i class="fa-solid fa-handshake"></i>',
             'child'     => [
                 [
-                    'name'  => '1. Danh sách',
-                    'route' => 'admin.tag.list',
+                    'name'  => '1. Danh mục',
+                    'route' => 'admin.exchange.list',
                     'icon'  => '<i data-feather=\'circle\'></i>'
                 ],
                 [
-                    'name'  => '2. Ngôn ngữ',
-                    'route' => 'admin.tag.listLanguageNotExists',
+                    'name'  => '2. Tags',
+                    'route' => 'admin.exchangeTag.list',
                     'icon'  => '<i data-feather=\'circle\'></i>'
                 ],
             ]
         ],
-        // [
-        //     'name'      => 'Nền trả phí',
-        //     'route'     => '',
-        //     'icon'      => '<i class="fa-solid fa-cloud"></i>',
-        //     'child'     => [
-        //         [
-        //             'name'  => '1. Kho trả phí',
-        //             'route' => 'admin.wallpaper.list',
-        //             'icon'  => '<i data-feather=\'circle\'></i>',
-        //         ],
-        //         [
-        //             'name'  => '2. Sản phẩm',
-        //             'route' => 'admin.product.list',
-        //             'icon'  => '<i data-feather=\'circle\'></i>'
-        //         ],
-        //         [
-        //             'name'  => '3. Ngôn ngữ',
-        //             'route' => 'admin.product.listLanguageNotExists',
-        //             'icon'  => '<i data-feather=\'circle\'></i>'
-        //         ],
-        //     ]
-        // ],
-        // [
-        //     'name'      => 'Nền miễn phí',
-        //     'route'     => '',
-        //     'icon'      => '<i class="fa-solid fa-cloud-arrow-down"></i>',
-        //     'child'     => [
-        //         [
-        //             'name'  => '1. Kho miễn phí',
-        //             'route' => 'admin.freeWallpaper.list',
-        //             'icon'  => '<i data-feather=\'circle\'></i>'
-        //         ],
-        //         [
-        //             'name'  => '2. Seo từng ảnh',
-        //             'route' => 'admin.seoFreeWallpaper.list',
-        //             'icon'  => '<i data-feather=\'circle\'></i>'
-        //         ],
-        //         [
-        //             'name'  => '3. Ngôn ngữ',
-        //             'route' => '',
-        //             'icon'  => '<i data-feather=\'circle\'></i>'
-        //         ],
-        //     ]
-        // ],
         [
             'name'      => 'Trang',
             'route'     => 'admin.page.list',

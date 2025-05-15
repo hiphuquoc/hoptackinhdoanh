@@ -110,21 +110,6 @@
             elemtShow.html(lengthInput);
         }
     })
-    /* Setting view */
-    function settingView(name, valDefault){
-        $.ajax({
-            url         : '{{ route("admin.setting.view") }}',
-            type        : 'get',
-            dataType    : 'html',
-            data        : {
-                name,
-                default : valDefault
-            },
-            success     : function(result){
-                location.reload();
-            }
-        });
-    }
     function submitForm(idForm, addParams = {}){
         const form = $('#' + idForm);
         if(form.valid()){

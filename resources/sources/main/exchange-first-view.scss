@@ -1,0 +1,112 @@
+/* Home ===== màn hình đầu tiên */
+@import 'childs/default.scss';
+@import 'childs/base.scss';
+@import 'childs/header-top.scss';
+@import 'childs/layout.scss';
+@import 'childs/breadcrumb.scss';
+@import 'childs/toccontent.scss';
+// /* Home ===== kém quan trọng (nhưng ít nên đưa vào đây luôn) */
+// @import 'childs/loading.scss';
+@import 'childs/footer.scss';
+@import 'childs/right.scss';
+@import 'childs/login.scss';
+@import 'childs/modal.scss';
+
+.bussinessPlanBox {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    &_item {
+        width: 100%;
+        border: 1px solid rgb(var(--colorBackgroundLv2));
+        box-shadow: 0 2px 12px rgba(var(--colorBackgroundLv2), 0.5);
+        border-radius: var(--radiusNormal);
+        padding: 1.25rem;
+        &:hover {
+            box-shadow: 0 2px 12px rgba(var(--colorLv1), 0.25);
+        }
+        &_detail {
+            display: flex;
+            align-items: stretch;
+            gap: 1.25rem;
+            &_logo {
+                flex: 0 0 55px;
+                img {
+                    margin: 0;
+                }
+            }
+            &_text {
+                // width: calc(100% - 70px - 1rem);
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                &_title {
+                    display: flex;
+                    h2, h3 {
+                        margin: 0;
+                        padding: 0;
+                        color: rgb(var(--colorTitle));
+                        font-family: $fontTitle;
+                        font-size: calc(var(--fontSizeNormal) + 0.35rem);
+                        font-weight: 700;
+                        text-transform: none;
+                        line-height: calc(var(--lineHeightNormal) + 0.25rem);
+                        &:hover {
+                            color: rgb(var(--colorLv2));
+                        }
+                    }
+                }
+                &_subTitle {
+                    @include subTitleOfExchange;
+                }
+                &_desc {
+                    color: rgb(var(--colorDesc));
+                }
+                &_footer {
+                    display: flex;
+                    align-items: flex-end;
+                    &_tags {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 0.5rem;
+                        // margin-top: 0.125rem;
+                        &_item {
+                            background: rgba(var(--colorSLv1), 0.25);
+                            padding: 0.25rem 0.75rem;
+                            font-size: 0.875rem;
+                            font-weight: 500;
+                            border-radius: 50px;
+                        }
+                    }
+                    &_button {
+                        display: flex;
+                        margin-left: auto;
+                        background: rgb(var(--colorLv1));
+                        color: #fff;
+                        padding: 0.75rem 1.5rem;
+                        border-radius: var(--radiusNormal);
+                        font-weight: 600;
+                        letter-spacing: 0.5px;
+                        font-size: 0.875rem;
+                        font-family: $fontTitle;
+                        &:hover {
+                            color: #fff;
+                            background: rgb(var(--colorLv2));
+                        }
+                    }
+                }
+            }
+        }
+        &_infoAndButton {
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 180px;
+            &_info {
+
+            }
+            &_button {
+
+            }
+        }
+    }
+}

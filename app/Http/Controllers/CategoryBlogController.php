@@ -64,6 +64,7 @@ class CategoryBlogController extends Controller {
         $loaded             = $params['loaded'] ?? 0;
         $requestLoad        = $params['request_load'] ?? 10;
         $arrayIdCategory    = $params['array_category_blog_id'] ?? [];
+        $paginate           = config('main_'.env('APP_NAME').'.paginate.per_page');
         $response           = [];
         $wallpapers         = Blog::select('blog_info.*')
                                 ->join('seo', 'seo.id', '=', 'blog_info.seo_id')
@@ -97,7 +98,7 @@ class CategoryBlogController extends Controller {
                                 ->orderBy('id', 'DESC')
                                 ->skip($loaded)
                                 ->take($requestLoad)
-                                ->get();
+                                ->paginate($paginate);
         $total              = Blog::select('blog_info.*')
                                 ->join('seo', 'seo.id', '=', 'blog_info.seo_id')
                                 ->whereHas('seos.infoSeo', function ($query) use ($language, $keySearch) {

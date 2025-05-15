@@ -522,6 +522,7 @@ $width_normalMenu : 380px;
     &_icon {
         flex: 0 0 1.5rem;
         height: 1.5rem;
+        margin-top: 0.25rem;
         svg {
             color: rgb(var(--colorIcon));
             width: 100%;

@@ -1,4 +1,4 @@
-@extends('layouts.wallpaper')
+@extends('layouts.main')
 @push('cssFirstView')
     <!-- trường hợp là local thì dùng vite để chạy npm run dev lúc code -->
     @if(env('APP_ENV')=='local')
@@ -49,24 +49,26 @@
 <!-- ===== END:: SCHEMA ===== -->
 @endpush
 @section('content')
-    <!-- share social -->
-    @include('main.template.shareSocial')
-    <!-- content -->
-    <div class="articleBox distanceBetweenBox">
-        
-        <div class="pageCategoryBlog distanceBetweenSubbox">
-            <!-- breadcrumb -->
-            @include('main.template.breadcrumb')
-            <!-- thân trang -->
-            <div class="layoutPageCategoryBlog">
-                <div class="layoutPageCategoryBlog_left distanceBetweenSubbox">
+    {{-- <!-- share social -->
+    @include('main.template.shareSocial') --}}
+    <!-- breadcrumb -->
+    @include('main.snippets.breadcrumb')
+    <!-- thân trang -->
+    <div class="pageContent">
+        <div class="layoutPageCategoryBlog container">
+            <div class="layoutPageCategoryBlog_main">
+
+                <div class="sectionBox">
+
                     <!-- tiêu đề -->
                     <h1 class="titlePage">{{ $itemSeo->title }}</h1>
+
                     <!-- sort -->
                     @include('main.categoryBlog.sort', [
                         'language'          => $language ?? 'vi',
                         'total'             => $item->blogs->count(),
                     ])
+                    
                     <!-- bài viết con -->
                     <div class="blogListBox">
                         @if(!empty($blogs)&&$blogs->count()>0)
@@ -84,6 +86,7 @@
                                                         $imageMini  = \App\Helpers\Image::getUrlImageMiniByUrlImage($blog->seo->image);
                                                         $imageSmall = \App\Helpers\Image::getUrlImageSmallByUrlImage($blog->seo->image);
                                                         $imageLarge = \App\Helpers\Image::getUrlImageLargeByUrlImage($blog->seo->image);
+                                                        // dd($item);
                                                     @endphp
                                                     <picture>
                                                         <source media="(max-width: 577px)" srcset="{{ $imageSmall }}">
@@ -105,7 +108,7 @@
                                                 <div class="blogListBox_item_content_info">
                                                     <div class="maxLine_1">
                                                         <svg><use xlink:href="#icon_user"></use></svg>
-                                                        Name Admin
+                                                        Admin
                                                     </div> 
                                                     <div class="maxLine_1">
                                                         <svg><use xlink:href="#icon_clock_bold"></use></svg>
@@ -113,12 +116,12 @@
                                                     </div>
                                                     <div class="maxLine_1">
                                                         <svg style="transform: scale(1.15)"><use xlink:href="#icon_eye_bold"></use></svg>
-                                                        {{ $item->viewed }}
+                                                        {{ $blog->viewed }}
                                                     </div> 
-                                                    <div class="maxLine_1">
+                                                    {{-- <div class="maxLine_1">
                                                         <svg style="transform: scale(1.1)"><use xlink:href="#icon_share"></use></svg>
                                                         {{ $item->shared }}
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
                                                 <div class="blogListBox_item_content_desc maxLine_4">
                                                     {!! !empty($seo->infoSeo->contents[0]->content) ? strip_tags($seo->infoSeo->contents[0]->content) : '' !!}
@@ -133,27 +136,30 @@
                             <div>{{ config('data_language_1.'.$language.'.no_suitable_results_found') }}</div>
                         @endif
                     </div>
-                    
+
+                    <!-- Pagination -->
+                    @include('main.snippets.paginate', [
+                        'data'  => $blogs,
+                    ])
+
                 </div>
-                <!-- sidebar -->
-                <div class="layoutPageCategoryBlog_right">
-                    <!-- bai viết nổi bật -->
-                    @if(!empty($blogFeatured)&&$blogFeatured->count()>0)
-                        @include('main.categoryBlog.blogFeatured', compact('blogFeatured', 'language'))
-                    @endif
-                    <!-- danh sách category_blog -->
-                    @if(!empty($categoriesLv2)&&$categoriesLv2->count()>0)
-                        @include('main.categoryBlog.categoryBlogList', [
-                            'categories'    => $categoriesLv2,
-                            'language'      => $language,
-                        ])
-                    @endif
-                </div>
+                
             </div>
-
+            <!-- sidebar -->
+            <div class="layoutPageCategoryBlog_sidebar">
+                <!-- bai viết nổi bật -->
+                @if(!empty($blogFeatured)&&$blogFeatured->count()>0)
+                    @include('main.categoryBlog.blogFeatured', compact('blogFeatured', 'language'))
+                @endif
+                <!-- danh sách category_blog -->
+                @if(!empty($categoriesLv2)&&$categoriesLv2->count()>0)
+                    @include('main.categoryBlog.categoryBlogList', [
+                        'categories'    => $categoriesLv2,
+                        'language'      => $language,
+                    ])
+                @endif
+            </div>
         </div>
-        <!-- bài viết liên quan -->
-
     </div>
 
 @endsection
@@ -172,7 +178,7 @@
 @endpush
 @push('bottom')
     <!-- Header bottom -->
-    @include('main.snippets.headerBottom')
+    {{-- @include('main.snippets.headerBottom') --}}
     <!-- === START:: Zalo Ring === -->
     {{-- @include('main.snippets.zaloRing') --}}
     <!-- === END:: Zalo Ring === -->

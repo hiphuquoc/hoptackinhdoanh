@@ -203,9 +203,6 @@ return [
 
         // /* Thanh toán Paypal */
         // Srmklive\PayPal\Providers\PayPalServiceProvider::class,
-
-        /* lấy vị trí của khách hàng truy cập */
-        App\Providers\GeoIPServiceProvider::class,
     ],
 
     /*
